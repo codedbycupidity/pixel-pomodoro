@@ -1,0 +1,38 @@
+:root {
+  --color-bg: #1b1b1f;
+  --color-bg-soft: #222222;
+  --color-bg-mute: #282828;
+  --color-text: rgba(255, 255, 245, 0.86);
+  --color-text-muted: rgba(235, 235, 245, 0.6);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.6;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
