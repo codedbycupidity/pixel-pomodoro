@@ -34,6 +34,15 @@ interface FigmaTextNode {
   parents: string[]
 }
 
+interface FigmaImageNode {
+  id: string
+  name: string
+  type: string
+  bbox: FigmaBBox
+  bboxRelative?: FigmaBBox
+  parents: string[]
+}
+
 const PANEL_GROUP_NAMES = new Set<PanelId>(['timer', 'tasks', 'stats', 'settings'])
 
 function classifyTextNode(node: FigmaTextNode): PanelId | 'always' {
@@ -43,6 +52,28 @@ function classifyTextNode(node: FigmaTextNode): PanelId | 'always' {
   // Fallback: name-prefix routing for ungrouped panel content (e.g. timer-count, timer-status)
   if (node.name.startsWith('timer-')) return 'timer'
   return 'always'
+}
+
+function classifyImageNode(node: FigmaImageNode): PanelId | null {
+  for (const p of node.parents) {
+    if (PANEL_GROUP_NAMES.has(p as PanelId)) return p as PanelId
+  }
+  return null
+}
+
+// Strip Figma's auto-numbering suffix: "tasks-frame 1" -> "tasks-frame", "settings-frame - 1" -> "settings-frame"
+function stripFigmaSuffix(name: string): string {
+  return name.replace(/\s*[-–]?\s*\d+$/, '').trim()
+}
+
+// Dynamic/skipped nodes — handled by other code paths or not yet mapped to assets.
+const SKIP_IMAGE_PATTERNS: RegExp[] = [
+  /^completed-strawberry/, // dynamic count, rendered separately
+  /^empty-strawberry/, // dynamic count, rendered separately
+  /^strawberry-stat-display$/ // no matching PNG asset yet
+]
+function shouldRenderImageNode(node: FigmaImageNode): boolean {
+  return !SKIP_IMAGE_PATTERNS.some((re) => re.test(node.name))
 }
 
 function fillToCss(fill?: FigmaFill): string | undefined {
@@ -175,6 +206,30 @@ function App(): React.JSX.Element {
 
             {/* Frame chrome */}
             <img className="canvas-layer" src="/main/frame.png" alt="" />
+
+            {/* Per-panel Figma image nodes (panel frames, decorations) */}
+            {(figmaData.imageNodes as FigmaImageNode[]).map((node) => {
+              const panel = classifyImageNode(node)
+              if (!panel || panel !== active) return null
+              if (!shouldRenderImageNode(node)) return null
+              const baseName = stripFigmaSuffix(node.name)
+              const src = `/${panel}/${baseName}.png`
+              const bbox = node.bboxRelative ?? node.bbox
+              return (
+                <img
+                  key={node.id}
+                  className="figma-asset"
+                  src={src}
+                  alt=""
+                  style={{
+                    left: pct(bbox.x),
+                    top: pct(bbox.y),
+                    width: pct(bbox.width),
+                    height: pct(bbox.height)
+                  }}
+                />
+              )
+            })}
 
             {/* Highlight box behind the active panel's icon */}
             <img className="canvas-layer" src={`/main/${active}-selected.png`} alt="" />

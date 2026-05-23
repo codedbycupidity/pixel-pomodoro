@@ -1,5 +1,132 @@
 @import './base.css';
 
-#root {
-  min-height: 100vh;
+.window-root {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.debug-canvas {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px) 0 0 / 6.25% 6.25%,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px) 0 0 / 6.25% 6.25%,
+    #1b1b1f;
+  outline: 1px dashed rgba(255, 255, 255, 0.3);
+  outline-offset: -1px;
+}
+
+.debug-frame-footprint,
+.debug-frame-content {
+  position: absolute;
+  pointer-events: none;
+}
+
+.debug-frame-footprint {
+  outline: 2px solid rgba(255, 255, 255, 0.45);
+  outline-offset: -2px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.debug-frame-content {
+  outline: 2px dashed rgba(255, 255, 255, 0.55);
+  outline-offset: -2px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.debug-frame-footprint .debug-label,
+.debug-frame-content .debug-label {
+  top: 2px;
+  left: 2px;
+  bottom: auto;
+}
+
+.canvas-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  image-rendering: pixelated;
+  -webkit-user-drag: none;
+}
+
+.figma-text {
+  position: absolute;
+  pointer-events: none;
+  white-space: pre-line;
+  font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+.figma-asset {
+  position: absolute;
+  pointer-events: none;
+  image-rendering: pixelated;
+  -webkit-user-drag: none;
+}
+
+.drag-region {
+  position: absolute;
+  -webkit-app-region: drag;
+}
+
+.debug-drag-region {
+  outline: 2px dashed #00bcd4;
+  outline-offset: -2px;
+  background: rgba(0, 188, 212, 0.15);
+}
+
+.debug-drag-region .debug-label {
+  top: 2px;
+  left: 2px;
+  bottom: auto;
+}
+
+.hitbox {
+  position: absolute;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+
+.debug-outline {
+  outline: 2px solid var(--debug-color, magenta);
+  outline-offset: -2px;
+}
+
+.debug-label {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  font-size: 9px;
+  line-height: 1;
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2px 4px;
+  border-radius: 2px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.debug-toggle {
+  position: fixed;
+  bottom: 4px;
+  right: 4px;
+  -webkit-app-region: no-drag;
+  z-index: 100;
+  font-size: 10px;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  cursor: pointer;
 }
