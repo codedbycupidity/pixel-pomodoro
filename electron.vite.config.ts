@@ -6,6 +6,7 @@ export default defineConfig({
   main: {},
   preload: {},
   renderer: {
+    publicDir: resolve(__dirname, 'assets'),
     resolve: {
       alias: {
         '@renderer': resolve('src/renderer/src')
