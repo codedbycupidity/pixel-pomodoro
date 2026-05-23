@@ -2,7 +2,7 @@
   "file": {
     "key": "CQXwq1E7TstpKfkDCnNtbX",
     "name": "pomodoro",
-    "lastModified": "2026-05-23T15:43:15Z"
+    "lastModified": "2026-05-23T16:41:44Z"
   },
   "originFrame": {
     "id": "1:7",
@@ -324,6 +324,45 @@
       }
     },
     {
+      "id": "7:47",
+      "name": "STUDY TIME",
+      "text": "STUDY TIME",
+      "fontSize": 10,
+      "fontFamily": "Five Fonts at Freddy's",
+      "fontWeight": 500,
+      "letterSpacing": 0,
+      "lineHeightPx": 21.25,
+      "textAlignHorizontal": "LEFT",
+      "textAlignVertical": "TOP",
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0.5372549295425415,
+            "g": 0.21568627655506134,
+            "b": 0.3764705955982208,
+            "a": 1
+          }
+        }
+      ],
+      "bbox": {
+        "x": 246,
+        "y": 143,
+        "width": 68,
+        "height": 21
+      },
+      "parents": [
+        "Document",
+        "Page 1"
+      ],
+      "bboxRelative": {
+        "x": 246,
+        "y": 143,
+        "width": 68,
+        "height": 21
+      }
+    },
+    {
       "id": "5:24",
       "name": "TASKS",
       "text": "TASKS",
@@ -361,6 +400,46 @@
         "y": 145,
         "width": 38,
         "height": 21
+      }
+    },
+    {
+      "id": "7:48",
+      "name": "+3",
+      "text": "+3",
+      "fontSize": 7,
+      "fontFamily": "Five Fonts at Freddy's",
+      "fontWeight": 500,
+      "letterSpacing": 0,
+      "lineHeightPx": 14.875,
+      "textAlignHorizontal": "LEFT",
+      "textAlignVertical": "TOP",
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0.5372549295425415,
+            "g": 0.21568627655506134,
+            "b": 0.3764705955982208,
+            "a": 1
+          }
+        }
+      ],
+      "bbox": {
+        "x": 353,
+        "y": 237,
+        "width": 11,
+        "height": 15
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "stats"
+      ],
+      "bboxRelative": {
+        "x": 353,
+        "y": 237,
+        "width": 11,
+        "height": 15
       }
     },
     {
@@ -764,6 +843,46 @@
       }
     },
     {
+      "id": "9:2",
+      "name": "Text",
+      "text": "",
+      "fontSize": 8,
+      "fontFamily": "Five Fonts at Freddy's",
+      "fontWeight": 500,
+      "letterSpacing": 0,
+      "lineHeightPx": 17,
+      "textAlignHorizontal": "LEFT",
+      "textAlignVertical": "TOP",
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0.5372549295425415,
+            "g": 0.21568627655506134,
+            "b": 0.3764705955982208,
+            "a": 1
+          }
+        }
+      ],
+      "bbox": {
+        "x": 196,
+        "y": 184,
+        "width": 0,
+        "height": 17
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "settings"
+      ],
+      "bboxRelative": {
+        "x": 196,
+        "y": 184,
+        "width": 0,
+        "height": 17
+      }
+    },
+    {
       "id": "5:11",
       "name": "SETTINGS",
       "text": "SETTINGS",
@@ -877,7 +996,7 @@
       "type": "RECTANGLE",
       "bbox": {
         "x": 6,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       },
@@ -889,7 +1008,7 @@
       ],
       "bboxRelative": {
         "x": 6,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       }
@@ -900,7 +1019,7 @@
       "type": "RECTANGLE",
       "bbox": {
         "x": 31,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       },
@@ -912,7 +1031,7 @@
       ],
       "bboxRelative": {
         "x": 31,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       }
@@ -923,7 +1042,7 @@
       "type": "RECTANGLE",
       "bbox": {
         "x": 56,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       },
@@ -935,7 +1054,7 @@
       ],
       "bboxRelative": {
         "x": 56,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       }
@@ -946,7 +1065,7 @@
       "type": "RECTANGLE",
       "bbox": {
         "x": 81,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       },
@@ -958,7 +1077,7 @@
       ],
       "bboxRelative": {
         "x": 81,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       }
@@ -969,7 +1088,7 @@
       "type": "RECTANGLE",
       "bbox": {
         "x": 106,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       },
@@ -981,7 +1100,7 @@
       ],
       "bboxRelative": {
         "x": 106,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       }
@@ -992,7 +1111,7 @@
       "type": "RECTANGLE",
       "bbox": {
         "x": 131,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       },
@@ -1004,7 +1123,7 @@
       ],
       "bboxRelative": {
         "x": 131,
-        "y": 3,
+        "y": 4,
         "width": 512,
         "height": 512
       }
@@ -1015,9 +1134,9 @@
       "type": "RECTANGLE",
       "bbox": {
         "x": 194,
-        "y": 172,
-        "width": 49,
-        "height": 49
+        "y": 170,
+        "width": 52,
+        "height": 52
       },
       "parents": [
         "Document",
@@ -1026,9 +1145,9 @@
       ],
       "bboxRelative": {
         "x": 194,
-        "y": 172,
-        "width": 49,
-        "height": 49
+        "y": 170,
+        "width": 52,
+        "height": 52
       }
     },
     {
