@@ -73,6 +73,104 @@
   -webkit-user-drag: none;
 }
 
+/* Settings toggles — pink-fill ON, light OFF, white thumb on ON, muted thumb on OFF. */
+.settings-toggle-track {
+  position: absolute;
+  border: 1px solid #d39fac;
+  border-radius: 999px;
+  padding: 0;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  transition:
+    background 0.18s ease-out,
+    border-color 0.18s ease-out,
+    transform 0.08s ease-out;
+}
+.settings-toggle-track.is-on {
+  background: #f47fa2;
+  border-color: #c96580;
+}
+.settings-toggle-track.is-off {
+  background: #feddde;
+  border-color: #d39fac;
+}
+.settings-toggle-track:hover {
+  filter: brightness(1.04);
+}
+.settings-toggle-track:active {
+  transform: translateY(1px);
+}
+
+.settings-toggle-thumb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transition:
+    left 0.24s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.18s ease-out;
+  box-shadow: 0 0 0 1px rgba(137, 55, 96, 0.18);
+}
+.settings-toggle-thumb.is-on {
+  background: #ffffff;
+}
+.settings-toggle-thumb.is-off {
+  background: #e5aebe;
+}
+
+/* Settings modifier — single rounded pill: ◀  N min  ▶ */
+.settings-modifier-pill {
+  position: absolute;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  background: #feddde;
+  border: 1px solid #d39fac;
+  border-radius: 999px;
+  color: #893760;
+  font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  padding: 0 1.5%;
+  -webkit-app-region: no-drag;
+  line-height: 0;
+}
+
+.settings-modifier-value {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  /* Pixel font glyphs sit at top of em-box; push down so they visually center. */
+  transform: translateY(0.25em);
+}
+
+.settings-modifier-arrow {
+  background: transparent;
+  border: none;
+  color: #893760;
+  margin: 0;
+  padding: 0 0.3em;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  line-height: 1;
+  transform: translateY(0.05em);
+  transition:
+    transform 0.08s ease-out,
+    opacity 0.12s ease-out;
+}
+.settings-modifier-arrow:hover {
+  transform: translateY(0.00em) scale(1.15);
+}
+.settings-modifier-arrow:active {
+  transform: translateY(0.05em) scale(0.92);
+}
+.settings-modifier-arrow:disabled {
+  transform: translateY(0.00em);
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 .drag-region {
   position: absolute;
   -webkit-app-region: drag;
