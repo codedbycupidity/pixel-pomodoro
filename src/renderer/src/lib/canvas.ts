@@ -1,8 +1,18 @@
 // Layout constants in 512x512 design space and helpers to map to render units.
 export const CANVAS = 512
 
+// The visible pomodoro frame is 451 design units wide. The renderer's CSS clips
+// the canvas so that this 451-unit-wide strip fills 100vw. Use FRAME_W (not CANVAS)
+// when converting design pixels to vw, so text sizes match Figma's proportions.
+export const FRAME_W = 451
+
 export function pct(value: number): string {
   return `${(value / CANVAS) * 100}%`
+}
+
+// Convert a Figma design-pixel size to a vw value that matches the visible frame scale.
+export function designVw(designPx: number): string {
+  return `${(designPx / FRAME_W) * 100}vw`
 }
 
 export type PanelId = 'timer' | 'tasks' | 'stats' | 'settings'
@@ -83,7 +93,15 @@ export const STRAWBERRY_SLOTS = [
 ]
 
 // Matches the "+3" design placeholder text node in the stats group.
-export const STRAWBERRY_OVERFLOW_LABEL = { x: 353, y: 237, width: 30, height: 15, fontSize: 7 }
+// Width is widened from Figma's 11 to 30 to give room for "+10".."+99" overflow.
+export const STRAWBERRY_OVERFLOW_LABEL = {
+  x: 353,
+  y: 237,
+  width: 30,
+  height: 15,
+  fontSize: 7,
+  lineHeightPx: 14.875
+}
 
 // Settings panel — Y centers (matching the figma text labels' vertical centers).
 export const SETTINGS_ROWS = {

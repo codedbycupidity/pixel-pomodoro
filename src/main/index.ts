@@ -4,16 +4,21 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 function createWindow(): void {
+  // Window matches the visible pomodoro frame (451x366 in 512 design space).
+  const FRAME_W = 451
+  const FRAME_H = 366
+  const SCALE = 1.8
+
   const mainWindow = new BrowserWindow({
-    width: 600,
-    height: 600,
-    minWidth: 400,
-    minHeight: 400,
+    width: Math.round(FRAME_W * SCALE),
+    height: Math.round(FRAME_H * SCALE),
+    minWidth: Math.round(FRAME_W * 0.9),
+    minHeight: Math.round(FRAME_H * 0.9),
     show: false,
     frame: false,
     transparent: true,
     resizable: true,
-    hasShadow: false,
+    hasShadow: true,
     backgroundColor: '#00000000',
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -22,8 +27,8 @@ function createWindow(): void {
     }
   })
 
-  // Lock window to 1:1 aspect ratio so any resize stays square
-  mainWindow.setAspectRatio(1)
+  // Lock to the frame's aspect ratio so resizing keeps proportions.
+  mainWindow.setAspectRatio(FRAME_W / FRAME_H)
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()

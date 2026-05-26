@@ -1,7 +1,7 @@
 import { useState, type CSSProperties } from 'react'
 import figmaData from './figma-text.json'
 import {
-  CANVAS,
+  designVw,
   DRAG_REGION,
   FRAME_CONTENT,
   FRAME_FOOTPRINT,
@@ -57,8 +57,8 @@ function renderFigmaText(node: FigmaTextNode, pomodorosToday: number): React.JSX
         top: pct(bbox.y),
         width: pct(bbox.width),
         height: pct(bbox.height),
-        fontSize: `${(node.fontSize / CANVAS) * 100}vw`,
-        lineHeight: `${(node.lineHeightPx / CANVAS) * 100}vw`,
+        fontSize: designVw(node.fontSize),
+        lineHeight: designVw(node.lineHeightPx),
         color: fillToCss(node.fills?.[0]),
         textAlign: node.textAlignHorizontal.toLowerCase() as CSSProperties['textAlign']
       }}
@@ -172,8 +172,8 @@ function App(): React.JSX.Element {
                 top: pct(417),
                 width: pct(40),
                 height: pct(17),
-                fontSize: `${(8 / CANVAS) * 100}vw`,
-                lineHeight: `${(17 / CANVAS) * 100}vw`,
+                fontSize: designVw(8),
+                lineHeight: designVw(17),
                 color: 'rgb(137, 55, 96)'
               }}
             >

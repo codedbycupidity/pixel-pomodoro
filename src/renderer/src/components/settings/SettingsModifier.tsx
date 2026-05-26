@@ -1,4 +1,4 @@
-import { CANVAS, pct, SETTINGS_CONTROLS_RIGHT_X } from '../../lib/canvas'
+import { designVw, pct, SETTINGS_CONTROLS_RIGHT_X } from '../../lib/canvas'
 
 interface SettingsModifierProps {
   value: number
@@ -23,8 +23,8 @@ export function SettingsModifier({
   const H = 18
   const leftX = SETTINGS_CONTROLS_RIGHT_X - W
   const top = centerY - H / 2
-  const fontSize = `${(8 / CANVAS) * 100}vw`
-  const arrowFontSize = `${(8 / CANVAS) * 100}vw`
+  const fontSize = designVw(8)
+  const arrowFontSize = designVw(8)
   return (
     <div
       className="settings-modifier-pill"

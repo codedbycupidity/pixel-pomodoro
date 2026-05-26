@@ -4,11 +4,19 @@
   position: relative;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
+/* The .canvas keeps its native 1:1 design ratio (sized by 100vw only — never stretched).
+   It's scaled so that the 451-unit-wide visible frame portion fills 100vw, then offset
+   so the frame's top-left (design 30,77) lands at the window's top-left. The OS window
+   is locked to a matching 451:366 aspect via setAspectRatio in src/main/index.ts. */
 .canvas {
   position: absolute;
-  inset: 0;
+  width: calc(100vw * 512 / 451);
+  height: calc(100vw * 512 / 451);
+  left: calc(-100vw * 30 / 451);
+  top: calc(-100vw * 77 / 451);
 }
 
 .debug-canvas {

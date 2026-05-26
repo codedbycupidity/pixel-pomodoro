@@ -1,5 +1,6 @@
 import {
   CANVAS,
+  designVw,
   pct,
   STRAWBERRY_OVERFLOW_LABEL,
   STRAWBERRY_SLOTS
@@ -44,8 +45,8 @@ export function StatsPanel({ pomodorosToday }: StatsPanelProps): React.JSX.Eleme
             top: pct(STRAWBERRY_OVERFLOW_LABEL.y),
             width: pct(STRAWBERRY_OVERFLOW_LABEL.width),
             height: pct(STRAWBERRY_OVERFLOW_LABEL.height),
-            fontSize: `${(STRAWBERRY_OVERFLOW_LABEL.fontSize / CANVAS) * 100}vw`,
-            lineHeight: `${(STRAWBERRY_OVERFLOW_LABEL.fontSize / CANVAS) * 100}vw`,
+            fontSize: designVw(STRAWBERRY_OVERFLOW_LABEL.fontSize),
+            lineHeight: designVw(STRAWBERRY_OVERFLOW_LABEL.lineHeightPx),
             color: 'rgb(137, 55, 96)'
           }}
         >
