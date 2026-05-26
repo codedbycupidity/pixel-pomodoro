@@ -31,7 +31,7 @@ export function SettingsToggle({ on, onToggle, centerY }: SettingsToggleProps): 
         className={`settings-toggle-thumb ${on ? 'is-on' : 'is-off'}`}
         style={{
           left: pct(thumbX),
-          top: pct(thumbY),
+          top: pct(thumbY),  
           width: pct(THUMB),
           height: pct(THUMB)
         }}

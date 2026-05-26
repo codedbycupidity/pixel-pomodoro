@@ -39,10 +39,39 @@ function hitboxStyle(h: Hitbox, debug: boolean): CSSProperties {
   }
 }
 
+function renderFigmaText(node: FigmaTextNode, pomodorosToday: number): React.JSX.Element {
+  const bbox = node.bboxRelative ?? node.bbox
+  const text = dynamicTextFor(node.name, { pomodorosToday }) ?? node.text
+  // Shift "pomodoros completed" right when the count grows from 1 to 2+ digits
+  // so the visual gap between number and label stays constant.
+  const NUMBER_DIGIT_WIDTH_AT_FS20 = 11
+  const extraDigits = Math.max(0, String(pomodorosToday).length - 1)
+  const leftOffset =
+    node.name === 'pomodoros completed' ? extraDigits * NUMBER_DIGIT_WIDTH_AT_FS20 : 0
+  return (
+    <div
+      key={node.id}
+      className="figma-text"
+      style={{
+        left: pct(bbox.x + leftOffset),
+        top: pct(bbox.y),
+        width: pct(bbox.width),
+        height: pct(bbox.height),
+        fontSize: `${(node.fontSize / CANVAS) * 100}vw`,
+        lineHeight: `${(node.lineHeightPx / CANVAS) * 100}vw`,
+        color: fillToCss(node.fills?.[0]),
+        textAlign: node.textAlignHorizontal.toLowerCase() as CSSProperties['textAlign']
+      }}
+    >
+      {text}
+    </div>
+  )
+}
+
 function App(): React.JSX.Element {
   const [active, setActive] = useState<PanelId>('timer')
-  const [debug, setDebug] = useState(true)
-  const [pomodorosToday, setPomodorosToday] = useState(5)
+  const [debug] = useState(false)
+  const [pomodorosToday] = useState(5)
   const [settings, setSettings] = useState<SettingsState>({
     focusMin: 25,
     longBreakMin: 15,
@@ -92,15 +121,13 @@ function App(): React.JSX.Element {
         {/* Always-on chrome + per-panel Figma assets */}
         {!debug && (
           <>
-            <img className="canvas-layer" src="/timer/background.png" alt="" />
-            <img className="canvas-layer" src="/main/frame.png" alt="" />
-
+            {/* Timer assets render ALWAYS as the base view (the room scene behind the window). */}
             {(figmaData.imageNodes as FigmaImageNode[]).map((node) => {
               const panel = classifyImageNode(node)
-              if (!panel || panel !== active) return null
+              if (panel !== 'timer') return null
               if (!shouldRenderImageNode(node)) return null
               const baseName = stripFigmaSuffix(node.name)
-              const src = `/${panel}/${baseName}.png`
+              const src = `/timer/${baseName}.png`
               const bbox = node.bboxRelative ?? node.bbox
               return (
                 <img
@@ -117,6 +144,8 @@ function App(): React.JSX.Element {
                 />
               )
             })}
+
+            <img className="canvas-layer" src="/main/frame.png" alt="" />
 
             <img className="canvas-layer" src={`/main/${active}-selected.png`} alt="" />
 
@@ -150,41 +179,50 @@ function App(): React.JSX.Element {
             >
               {pomodorosToday}
             </div>
+
+            {/* Timer + always-on chrome text — renders below the overlay panels. */}
+            {(figmaData.textNodes as FigmaTextNode[]).map((node) => {
+              if (SKIP_TEXT_NAMES.has(node.name)) return null
+              const panel = classifyTextNode(node)
+              if (panel !== 'always' && panel !== 'timer') return null
+              return renderFigmaText(node, pomodorosToday)
+            })}
+
+            {/* Tasks/Stats/Settings panel assets render ABOVE the main chrome. */}
+            {active !== 'timer' &&
+              (figmaData.imageNodes as FigmaImageNode[]).map((node) => {
+                const panel = classifyImageNode(node)
+                if (!panel || panel !== active) return null
+                if (!shouldRenderImageNode(node)) return null
+                const baseName = stripFigmaSuffix(node.name)
+                const src = `/${panel}/${baseName}.png`
+                const bbox = node.bboxRelative ?? node.bbox
+                return (
+                  <img
+                    key={node.id}
+                    className="figma-asset"
+                    src={src}
+                    alt=""
+                    style={{
+                      left: pct(bbox.x),
+                      top: pct(bbox.y),
+                      width: pct(bbox.width),
+                      height: pct(bbox.height)
+                    }}
+                  />
+                )
+              })}
           </>
         )}
 
-        {/* Figma text overlays — always-on chrome + active panel's grouped text */}
+        {/* Active panel's own text — renders above its overlay assets (when not timer). */}
         {!debug &&
+          active !== 'timer' &&
           (figmaData.textNodes as FigmaTextNode[]).map((node) => {
             if (SKIP_TEXT_NAMES.has(node.name)) return null
             const panel = classifyTextNode(node)
-            if (panel !== 'always' && panel !== active) return null
-            const bbox = node.bboxRelative ?? node.bbox
-            const text = dynamicTextFor(node.name, { pomodorosToday }) ?? node.text
-            // Shift "pomodoros completed" right when the count grows from 1 to 2+ digits
-            // so the visual gap between number and label stays constant.
-            const NUMBER_DIGIT_WIDTH_AT_FS20 = 11
-            const extraDigits = Math.max(0, String(pomodorosToday).length - 1)
-            const leftOffset =
-              node.name === 'pomodoros completed' ? extraDigits * NUMBER_DIGIT_WIDTH_AT_FS20 : 0
-            return (
-              <div
-                key={node.id}
-                className="figma-text"
-                style={{
-                  left: pct(bbox.x + leftOffset),
-                  top: pct(bbox.y),
-                  width: pct(bbox.width),
-                  height: pct(bbox.height),
-                  fontSize: `${(node.fontSize / CANVAS) * 100}vw`,
-                  lineHeight: `${(node.lineHeightPx / CANVAS) * 100}vw`,
-                  color: fillToCss(node.fills?.[0]),
-                  textAlign: node.textAlignHorizontal.toLowerCase() as CSSProperties['textAlign']
-                }}
-              >
-                {text}
-              </div>
-            )
+            if (panel !== active) return null
+            return renderFigmaText(node, pomodorosToday)
           })}
 
         {/* Per-panel interactive overlays */}
@@ -243,16 +281,7 @@ function App(): React.JSX.Element {
         </button>
       </div>
 
-      <button className="debug-toggle" onClick={() => setDebug((d) => !d)}>
-        debug: {debug ? 'on' : 'off'} · active: {active}
-      </button>
-      <button
-        className="debug-toggle"
-        style={{ right: 'auto', left: 4 }}
-        onClick={() => setPomodorosToday((n) => (n + 1) % 12)}
-      >
-        🍓 {pomodorosToday}
-      </button>
+      {/* debug toggle buttons removed */}
     </div>
   )
 }

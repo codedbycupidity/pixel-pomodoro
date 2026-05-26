@@ -142,7 +142,7 @@
   user-select: none;
   line-height: 1;
   /* Pixel font glyphs sit at top of em-box; push down so they visually center. */
-  transform: translateY(0.25em);
+  transform: translateY(0.45em);
 }
 
 .settings-modifier-arrow {

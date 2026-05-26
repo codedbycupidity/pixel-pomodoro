@@ -2,7 +2,7 @@
   "file": {
     "key": "CQXwq1E7TstpKfkDCnNtbX",
     "name": "pomodoro",
-    "lastModified": "2026-05-23T16:41:44Z"
+    "lastModified": "2026-05-26T01:40:11Z"
   },
   "originFrame": {
     "id": "1:7",
@@ -12,48 +12,9 @@
   },
   "textNodes": [
     {
-      "id": "4:9",
-      "name": "today’s count:",
-      "text": "today’s count: ",
-      "fontSize": 8,
-      "fontFamily": "Five Fonts at Freddy's",
-      "fontWeight": 500,
-      "letterSpacing": 0,
-      "lineHeightPx": 17,
-      "textAlignHorizontal": "LEFT",
-      "textAlignVertical": "TOP",
-      "fills": [
-        {
-          "type": "SOLID",
-          "color": {
-            "r": 0.5372549295425415,
-            "g": 0.21568627655506134,
-            "b": 0.3764705955982208,
-            "a": 1
-          }
-        }
-      ],
-      "bbox": {
-        "x": 143,
-        "y": 417,
-        "width": 69,
-        "height": 17
-      },
-      "parents": [
-        "Document",
-        "Page 1"
-      ],
-      "bboxRelative": {
-        "x": 143,
-        "y": 417,
-        "width": 69,
-        "height": 17
-      }
-    },
-    {
-      "id": "4:10",
-      "name": "PIXEL POMODORO",
-      "text": "PIXEL POMODORO",
+      "id": "7:47",
+      "name": "STUDY TIME",
+      "text": "STUDY TIME",
       "fontSize": 10,
       "fontFamily": "Five Fonts at Freddy's",
       "fontWeight": 500,
@@ -73,19 +34,20 @@
         }
       ],
       "bbox": {
-        "x": 65,
-        "y": 88,
-        "width": 98,
+        "x": 246,
+        "y": 143,
+        "width": 68,
         "height": 21
       },
       "parents": [
         "Document",
-        "Page 1"
+        "Page 1",
+        "timer"
       ],
       "bboxRelative": {
-        "x": 65,
-        "y": 88,
-        "width": 98,
+        "x": 246,
+        "y": 143,
+        "width": 68,
         "height": 21
       }
     },
@@ -119,7 +81,8 @@
       },
       "parents": [
         "Document",
-        "Page 1"
+        "Page 1",
+        "timer"
       ],
       "bboxRelative": {
         "x": 261,
@@ -158,13 +121,94 @@
       },
       "parents": [
         "Document",
-        "Page 1"
+        "Page 1",
+        "timer"
       ],
       "bboxRelative": {
         "x": 227,
         "y": 256,
         "width": 106,
         "height": 39
+      }
+    },
+    {
+      "id": "4:9",
+      "name": "today’s count:",
+      "text": "today’s count: ",
+      "fontSize": 8,
+      "fontFamily": "Five Fonts at Freddy's",
+      "fontWeight": 500,
+      "letterSpacing": 0,
+      "lineHeightPx": 17,
+      "textAlignHorizontal": "LEFT",
+      "textAlignVertical": "TOP",
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0.5372549295425415,
+            "g": 0.21568627655506134,
+            "b": 0.3764705955982208,
+            "a": 1
+          }
+        }
+      ],
+      "bbox": {
+        "x": 143,
+        "y": 417,
+        "width": 69,
+        "height": 17
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "main"
+      ],
+      "bboxRelative": {
+        "x": 143,
+        "y": 417,
+        "width": 69,
+        "height": 17
+      }
+    },
+    {
+      "id": "4:10",
+      "name": "PIXEL POMODORO",
+      "text": "PIXEL POMODORO",
+      "fontSize": 10,
+      "fontFamily": "Five Fonts at Freddy's",
+      "fontWeight": 500,
+      "letterSpacing": 0,
+      "lineHeightPx": 21.25,
+      "textAlignHorizontal": "LEFT",
+      "textAlignVertical": "TOP",
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0.5372549295425415,
+            "g": 0.21568627655506134,
+            "b": 0.3764705955982208,
+            "a": 1
+          }
+        }
+      ],
+      "bbox": {
+        "x": 65,
+        "y": 88,
+        "width": 98,
+        "height": 21
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "main"
+      ],
+      "bboxRelative": {
+        "x": 65,
+        "y": 88,
+        "width": 98,
+        "height": 21
       }
     },
     {
@@ -197,7 +241,8 @@
       },
       "parents": [
         "Document",
-        "Page 1"
+        "Page 1",
+        "main"
       ],
       "bboxRelative": {
         "x": 52,
@@ -236,7 +281,8 @@
       },
       "parents": [
         "Document",
-        "Page 1"
+        "Page 1",
+        "main"
       ],
       "bboxRelative": {
         "x": 51,
@@ -275,7 +321,8 @@
       },
       "parents": [
         "Document",
-        "Page 1"
+        "Page 1",
+        "main"
       ],
       "bboxRelative": {
         "x": 44,
@@ -314,52 +361,14 @@
       },
       "parents": [
         "Document",
-        "Page 1"
+        "Page 1",
+        "main"
       ],
       "bboxRelative": {
         "x": 51,
         "y": 285,
         "width": 27,
         "height": 15
-      }
-    },
-    {
-      "id": "7:47",
-      "name": "STUDY TIME",
-      "text": "STUDY TIME",
-      "fontSize": 10,
-      "fontFamily": "Five Fonts at Freddy's",
-      "fontWeight": 500,
-      "letterSpacing": 0,
-      "lineHeightPx": 21.25,
-      "textAlignHorizontal": "LEFT",
-      "textAlignVertical": "TOP",
-      "fills": [
-        {
-          "type": "SOLID",
-          "color": {
-            "r": 0.5372549295425415,
-            "g": 0.21568627655506134,
-            "b": 0.3764705955982208,
-            "a": 1
-          }
-        }
-      ],
-      "bbox": {
-        "x": 246,
-        "y": 143,
-        "width": 68,
-        "height": 21
-      },
-      "parents": [
-        "Document",
-        "Page 1"
-      ],
-      "bboxRelative": {
-        "x": 246,
-        "y": 143,
-        "width": 68,
-        "height": 21
       }
     },
     {
@@ -843,46 +852,6 @@
       }
     },
     {
-      "id": "9:2",
-      "name": "Text",
-      "text": "",
-      "fontSize": 8,
-      "fontFamily": "Five Fonts at Freddy's",
-      "fontWeight": 500,
-      "letterSpacing": 0,
-      "lineHeightPx": 17,
-      "textAlignHorizontal": "LEFT",
-      "textAlignVertical": "TOP",
-      "fills": [
-        {
-          "type": "SOLID",
-          "color": {
-            "r": 0.5372549295425415,
-            "g": 0.21568627655506134,
-            "b": 0.3764705955982208,
-            "a": 1
-          }
-        }
-      ],
-      "bbox": {
-        "x": 196,
-        "y": 184,
-        "width": 0,
-        "height": 17
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings"
-      ],
-      "bboxRelative": {
-        "x": 196,
-        "y": 184,
-        "width": 0,
-        "height": 17
-      }
-    },
-    {
       "id": "5:11",
       "name": "SETTINGS",
       "text": "SETTINGS",
@@ -924,6 +893,226 @@
     }
   ],
   "imageNodes": [
+    {
+      "id": "1:2",
+      "name": "background 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "timer"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "12:3",
+      "name": "background-ornaments 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "timer"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "12:11",
+      "name": "cat-sleeping 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "timer"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "12:10",
+      "name": "cat-awake 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "timer"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "12:4",
+      "name": "background-plants 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "timer"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "12:2",
+      "name": "background-clouds 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "timer"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "13:13",
+      "name": "text-bubble 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "timer"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "13:12",
+      "name": "leaf 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "timer"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "1:9",
+      "name": "pause 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "timer"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "1:10",
+      "name": "play 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "timer"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
     {
       "id": "1:17",
       "name": "tasks-frame 1",
@@ -1151,8 +1340,118 @@
       }
     },
     {
+      "id": "12:9",
+      "name": "stats-cat 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "stats"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
       "id": "5:12",
       "name": "settings-frame - 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "settings"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "12:8",
+      "name": "settings-star 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "settings"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "12:7",
+      "name": "settings-plant 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "settings"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "12:6",
+      "name": "settings-ornaments 1",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "settings"
+      ],
+      "bboxRelative": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "id": "12:5",
+      "name": "settings-cat 1",
       "type": "RECTANGLE",
       "bbox": {
         "x": 0,
