@@ -16,23 +16,23 @@ interface TaskRowProps {
   onDrop: () => void
 }
 
-// Row geometry (design units in the 512x512 canvas).
-const ROW_LEFT = 148
-const ROW_W = 322
-const ROW_H = 22
+// Row geometry — sized to fit inside the tasks-frame.png visible bbox (179..382 x 135..383).
+// 5 px inset on each side keeps content off the pink frame edges.
+export const TASK_ROW_LEFT = 184
+export const TASK_ROW_W = 193
+export const TASK_ROW_HEIGHT = 22
 
-const DRAG_X = ROW_LEFT // 148
-const DRAG_W = 10
-const CHECK_X = ROW_LEFT + 12 // 160
+// Inner-column x-offsets, relative to TASK_ROW_LEFT.
+const DRAG_W = 8
 const CHECK_W = 12
-const TEXT_X = ROW_LEFT + 28 // 176
-const TEXT_W = 200
-const POMO_X = ROW_LEFT + 232 // 380
-const POMO_W = 52
-const DEL_X = ROW_LEFT + 290 // 438
-const DEL_W = 16
-
-export const TASK_ROW_HEIGHT = ROW_H
+const TEXT_W = 100
+const POMO_W = 38
+const DEL_W = 12
+const DRAG_OFFSET = 0
+const CHECK_OFFSET = DRAG_OFFSET + DRAG_W + 3 // 11
+const TEXT_OFFSET = CHECK_OFFSET + CHECK_W + 4 // 27
+const POMO_OFFSET = TEXT_OFFSET + TEXT_W + 4 // 131
+const DEL_OFFSET = POMO_OFFSET + POMO_W + 4 // 173
 
 export function TaskRow({
   task,
@@ -66,10 +66,10 @@ export function TaskRow({
     <div
       className={`task-row ${isDragOver ? 'is-drag-over' : ''}`}
       style={{
-        left: pct(ROW_LEFT),
+        left: pct(TASK_ROW_LEFT),
         top: pct(y),
-        width: pct(ROW_W),
-        height: pct(ROW_H)
+        width: pct(TASK_ROW_W),
+        height: pct(TASK_ROW_HEIGHT)
       }}
       onDragOver={(e) => {
         e.preventDefault()
@@ -87,7 +87,7 @@ export function TaskRow({
         onDragEnd={onDragEnd}
         aria-label="Drag to reorder"
         style={{
-          left: pct(DRAG_X - ROW_LEFT),
+          left: pct(DRAG_OFFSET),
           width: pct(DRAG_W),
           fontSize
         }}
@@ -101,7 +101,7 @@ export function TaskRow({
         aria-pressed={task.done}
         aria-label={task.done ? 'Mark not done' : 'Mark done'}
         style={{
-          left: pct(CHECK_X - ROW_LEFT),
+          left: pct(CHECK_OFFSET),
           width: pct(CHECK_W),
           height: pct(CHECK_W),
           fontSize
@@ -125,7 +125,7 @@ export function TaskRow({
             }
           }}
           style={{
-            left: pct(TEXT_X - ROW_LEFT),
+            left: pct(TEXT_OFFSET),
             width: pct(TEXT_W),
             fontSize
           }}
@@ -138,7 +138,7 @@ export function TaskRow({
             setEditing(true)
           }}
           style={{
-            left: pct(TEXT_X - ROW_LEFT),
+            left: pct(TEXT_OFFSET),
             width: pct(TEXT_W),
             fontSize
           }}
@@ -153,7 +153,7 @@ export function TaskRow({
         onClick={cyclePomodoros}
         aria-label={`Pomodoros: ${task.pomodoros}, click to cycle`}
         style={{
-          left: pct(POMO_X - ROW_LEFT),
+          left: pct(POMO_OFFSET),
           width: pct(POMO_W),
           fontSize
         }}
@@ -167,7 +167,7 @@ export function TaskRow({
         onClick={onDelete}
         aria-label="Delete task"
         style={{
-          left: pct(DEL_X - ROW_LEFT),
+          left: pct(DEL_OFFSET),
           width: pct(DEL_W),
           fontSize
         }}

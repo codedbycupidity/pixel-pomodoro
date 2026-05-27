@@ -5,6 +5,14 @@ export interface Task {
   pomodoros: number
 }
 
+export type TaskFilter = 'all' | 'active' | 'done'
+
+export function applyTaskFilter(tasks: Task[], filter: TaskFilter): Task[] {
+  if (filter === 'active') return tasks.filter((t) => !t.done)
+  if (filter === 'done') return tasks.filter((t) => t.done)
+  return tasks
+}
+
 const STORAGE_KEY = 'pixel-pomodoro-tasks'
 
 const DEFAULT_TASKS: Task[] = [

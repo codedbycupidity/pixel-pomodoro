@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { designVw, pct } from '../../lib/canvas'
+import { TASK_ROW_HEIGHT, TASK_ROW_LEFT, TASK_ROW_W } from './TaskRow'
 
 interface AddTaskInputProps {
   y: number
   onAdd: (text: string) => void
 }
 
-const ROW_LEFT = 148
-const ROW_W = 322
-const ROW_H = 22
+const ADD_BTN_W = 22
+const INPUT_W = TASK_ROW_W - ADD_BTN_W - 4
 
 export function AddTaskInput({ y, onAdd }: AddTaskInputProps): React.JSX.Element {
   const [text, setText] = useState('')
@@ -25,26 +25,35 @@ export function AddTaskInput({ y, onAdd }: AddTaskInputProps): React.JSX.Element
     <div
       className="task-add-row"
       style={{
-        left: pct(ROW_LEFT),
+        left: pct(TASK_ROW_LEFT),
         top: pct(y),
-        width: pct(ROW_W),
-        height: pct(ROW_H)
+        width: pct(TASK_ROW_W),
+        height: pct(TASK_ROW_HEIGHT)
       }}
     >
-      <span className="task-add-prefix" style={{ fontSize }}>
-        +
-      </span>
       <input
         className="task-add-input"
         value={text}
-        placeholder="add a task..."
+        placeholder="+ add a task..."
         onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === 'Enter') submit()
           else if (e.key === 'Escape') setText('')
         }}
-        style={{ fontSize }}
+        style={{ width: pct(INPUT_W), fontSize }}
       />
+      <button
+        className="task-add-btn"
+        onClick={submit}
+        aria-label="Add task"
+        style={{
+          left: pct(INPUT_W + 4),
+          width: pct(ADD_BTN_W),
+          fontSize
+        }}
+      >
+        +
+      </button>
     </div>
   )
 }

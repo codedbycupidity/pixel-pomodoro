@@ -297,36 +297,107 @@
   transform: translateY(0.1em) scale(1.15);
 }
 
-/* Add-task row — same shape as task-row, lighter visual weight. */
+/* Add-task row — pill input + square "+" button on the right. */
 .task-add-row {
   position: absolute;
-  color: #d39fac;
+  color: #893760;
   font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
   -webkit-font-smoothing: none;
   font-smooth: never;
   -webkit-app-region: no-drag;
-  display: flex;
-  align-items: center;
   line-height: 1;
 }
-.task-add-prefix {
-  margin-right: 0.4em;
-  transform: translateY(0.3em);
-}
-.task-add-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #893760;
+.task-add-input,
+.task-add-btn {
+  position: absolute;
+  top: 0;
+  height: 100%;
   font: inherit;
   -webkit-font-smoothing: none;
   font-smooth: never;
   -webkit-app-region: no-drag;
-  transform: translateY(0.3em);
+}
+.task-add-input {
+  left: 0;
+  background: #feddde;
+  border: 1px solid #d39fac;
+  border-radius: 6px;
+  outline: none;
+  padding: 0 0.6em;
+  color: #893760;
 }
 .task-add-input::placeholder {
   color: #d39fac;
+}
+.task-add-input:focus {
+  border-color: #c96580;
+}
+.task-add-btn {
+  background: #f47fa2;
+  border: 1px solid #c96580;
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.15s ease-out,
+    transform 0.08s ease-out;
+}
+.task-add-btn:hover {
+  filter: brightness(1.06);
+}
+.task-add-btn:active {
+  transform: translateY(1px);
+}
+
+/* Filter row — three pills (all / active / done) + clickable trash hitbox. */
+.task-filter {
+  position: absolute;
+  background: #feddde;
+  border: 1px solid #d39fac;
+  border-radius: 999px;
+  color: #893760;
+  font: inherit;
+  font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.15s ease-out,
+    color 0.15s ease-out;
+}
+.task-filter > * {
+  transform: translateY(0.2em);
+}
+.task-filter.is-active {
+  background: #f47fa2;
+  border-color: #c96580;
+  color: #ffffff;
+}
+.task-filter:hover:not(.is-active) {
+  filter: brightness(1.04);
+}
+
+.task-trash-hitbox {
+  position: absolute;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+.task-trash-hitbox:hover {
+  background: rgba(201, 101, 128, 0.12);
+  border-radius: 4px;
 }
 
 .drag-region {
