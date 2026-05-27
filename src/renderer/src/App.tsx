@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import figmaData from './figma-text.json'
 import {
   designVw,
@@ -24,6 +24,7 @@ import {
   SKIP_TEXT_NAMES,
   stripFigmaSuffix
 } from './lib/figma'
+import { loadTasks, saveTasks, type Task } from './lib/tasks'
 import { SettingsPanel, type SettingsState } from './panels/SettingsPanel'
 import { StatsPanel } from './panels/StatsPanel'
 import { TasksPanel } from './panels/TasksPanel'
@@ -80,6 +81,11 @@ function App(): React.JSX.Element {
     notificationOn: true,
     darkModeOn: false
   })
+  const [tasks, setTasks] = useState<Task[]>(() => loadTasks())
+
+  useEffect(() => {
+    saveTasks(tasks)
+  }, [tasks])
 
   function handleWindowControl(id: WindowControlId): void {
     if (id === 'minimize') window.api.window.minimize()
@@ -227,7 +233,7 @@ function App(): React.JSX.Element {
 
         {/* Per-panel interactive overlays */}
         {!debug && active === 'timer' && <TimerPanel />}
-        {!debug && active === 'tasks' && <TasksPanel />}
+        {!debug && active === 'tasks' && <TasksPanel tasks={tasks} setTasks={setTasks} />}
         {!debug && active === 'stats' && <StatsPanel pomodorosToday={pomodorosToday} />}
         {!debug && active === 'settings' && (
           <SettingsPanel settings={settings} setSettings={setSettings} />

@@ -179,6 +179,156 @@
   cursor: not-allowed;
 }
 
+/* Tasks panel — pink-cream pill rows with drag handle, checkbox, text, pomodoro counter, delete. */
+.task-row {
+  position: absolute;
+  display: block;
+  color: #893760;
+  font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  -webkit-app-region: no-drag;
+  line-height: 1;
+}
+.task-row.is-drag-over::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -2px;
+  height: 2px;
+  background: #c96580;
+  pointer-events: none;
+}
+
+.task-drag-handle,
+.task-checkbox,
+.task-text,
+.task-pomo,
+.task-delete,
+.task-edit-input {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+
+.task-drag-handle {
+  cursor: grab;
+  color: #d39fac;
+  letter-spacing: -0.2em;
+  transform: translateY(0.2em);
+}
+.task-drag-handle:active {
+  cursor: grabbing;
+  color: #893760;
+}
+
+.task-checkbox {
+  border: 1px solid #d39fac;
+  background: #feddde;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition:
+    background 0.15s ease-out,
+    border-color 0.15s ease-out;
+}
+.task-checkbox.is-done {
+  background: #f47fa2;
+  border-color: #c96580;
+  color: #ffffff;
+}
+.task-checkbox:hover {
+  filter: brightness(1.04);
+}
+
+.task-text {
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transform: translateY(0.3em);
+}
+.task-text.is-done {
+  color: #d39fac;
+  text-decoration: line-through;
+}
+.task-text:hover {
+  color: #c96580;
+}
+
+.task-edit-input {
+  background: #feddde;
+  border: 1px solid #c96580;
+  border-radius: 3px;
+  outline: none;
+  padding: 0 0.3em;
+  font-family: inherit;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+.task-pomo {
+  text-align: center;
+  transform: translateY(0.3em);
+  white-space: nowrap;
+}
+.task-pomo:hover {
+  color: #c96580;
+}
+
+.task-delete {
+  color: #d39fac;
+  transform: translateY(0.1em);
+  font-weight: bold;
+}
+.task-delete:hover {
+  color: #c96580;
+  transform: translateY(0.1em) scale(1.15);
+}
+
+/* Add-task row — same shape as task-row, lighter visual weight. */
+.task-add-row {
+  position: absolute;
+  color: #d39fac;
+  font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  -webkit-app-region: no-drag;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+.task-add-prefix {
+  margin-right: 0.4em;
+  transform: translateY(0.3em);
+}
+.task-add-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #893760;
+  font: inherit;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  -webkit-app-region: no-drag;
+  transform: translateY(0.3em);
+}
+.task-add-input::placeholder {
+  color: #d39fac;
+}
+
 .drag-region {
   position: absolute;
   -webkit-app-region: drag;
