@@ -1,47 +1,52 @@
 import { useState } from 'react'
-import { AddTaskInput } from '../components/tasks/AddTaskInput'
+import { AddTaskButton } from '../components/tasks/AddTaskButton'
+import { AddTaskOverlay } from '../components/tasks/AddTaskOverlay'
 import { TaskFilters } from '../components/tasks/TaskFilters'
 import { TaskRow, TASK_ROW_HEIGHT } from '../components/tasks/TaskRow'
-import { applyTaskFilter, newTask, type Task, type TaskFilter } from '../lib/tasks'
+import { applyTaskFilter, type Task, type TaskFilter } from '../lib/tasks'
 
 interface TasksPanelProps {
   tasks: Task[]
   setTasks: (updater: (prev: Task[]) => Task[]) => void
 }
 
-// Layout — within tasks-frame.png visible bbox (179..382 in x, 135..383 in y).
-// Stack: add-input  →  task rows  →  filter row.
-const ADD_INPUT_Y = 173
-const LIST_TOP = 200
+// Layout — within tasks-frame.png content band (y 165..348 in 512 design canvas).
+const LIST_TOP = 192
 const LIST_GAP = 1
-const MAX_VISIBLE_ROWS = 6
+const MAX_VISIBLE_ROWS = 7
 
 export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Element {
   const [filter, setFilter] = useState<TaskFilter>('all')
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [showAddOverlay, setShowAddOverlay] = useState(false)
   const [dragIndex, setDragIndex] = useState<number | null>(null)
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null)
 
   const filtered = applyTaskFilter(tasks, filter)
   const visible = filtered.slice(0, MAX_VISIBLE_ROWS)
+  const hasSelection = selectedId !== null && tasks.some((t) => t.id === selectedId)
 
   function patchTask(id: string, patch: Partial<Task>): void {
     setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, ...patch } : t)))
   }
 
-  function deleteTask(id: string): void {
-    setTasks((prev) => prev.filter((t) => t.id !== id))
+  function addTask(text: string, pomodoros: number): void {
+    const id =
+      typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `t-${Date.now()}`
+    setTasks((prev) => [...prev, { id, text, pomodoros, done: false }])
+    setShowAddOverlay(false)
   }
 
-  function addTask(text: string): void {
-    setTasks((prev) => [...prev, newTask(text)])
+  function deleteSelected(): void {
+    if (!selectedId) return
+    setTasks((prev) => prev.filter((t) => t.id !== selectedId))
+    setSelectedId(null)
   }
 
-  function clearDoneTasks(): void {
-    setTasks((prev) => prev.filter((t) => !t.done))
-  }
-
-  // Reorder applies to the *unfiltered* tasks array using the dragged item's identity,
-  // so dragging works regardless of which filter view is active.
+  // Reorder applies to the *unfiltered* tasks array using id identity, so dragging
+  // works regardless of which filter view is active.
   function reorder(): void {
     if (dragIndex === null || dragOverIndex === null || dragIndex === dragOverIndex) return
     const draggedTask = visible[dragIndex]
@@ -65,18 +70,19 @@ export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Elem
 
   return (
     <>
-      <AddTaskInput y={ADD_INPUT_Y} onAdd={addTask} />
+      <AddTaskButton onClick={() => setShowAddOverlay(true)} />
 
       {visible.map((task, i) => (
         <TaskRow
           key={task.id}
           task={task}
           y={LIST_TOP + i * (TASK_ROW_HEIGHT + LIST_GAP)}
+          isSelected={selectedId === task.id}
           isDragOver={dragOverIndex === i && dragIndex !== i}
+          onSelect={() => setSelectedId(task.id === selectedId ? null : task.id)}
           onToggle={() => patchTask(task.id, { done: !task.done })}
           onTextChange={(text) => patchTask(task.id, { text })}
           onPomodorosChange={(pomodoros) => patchTask(task.id, { pomodoros })}
-          onDelete={() => deleteTask(task.id)}
           onDragStart={() => setDragIndex(i)}
           onDragOver={() => setDragOverIndex(i)}
           onDragEnd={endDrag}
@@ -87,7 +93,16 @@ export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Elem
         />
       ))}
 
-      <TaskFilters filter={filter} setFilter={setFilter} onClearDone={clearDoneTasks} />
+      <TaskFilters
+        filter={filter}
+        setFilter={setFilter}
+        onDeleteSelected={deleteSelected}
+        hasSelection={hasSelection}
+      />
+
+      {showAddOverlay && (
+        <AddTaskOverlay onSave={addTask} onCancel={() => setShowAddOverlay(false)} />
+      )}
     </>
   )
 }

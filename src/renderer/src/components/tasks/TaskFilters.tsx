@@ -4,17 +4,17 @@ import type { TaskFilter } from '../../lib/tasks'
 interface TaskFiltersProps {
   filter: TaskFilter
   setFilter: (f: TaskFilter) => void
-  onClearDone: () => void
+  onDeleteSelected: () => void
+  hasSelection: boolean
 }
 
-// Bottom strip — sits just above the trash-button image (which lives at x=351..377, y=349..373).
-// The three pills live to the LEFT of the trash button.
-const FILTER_ROW_LEFT = 184
-export const FILTER_ROW_Y = 350
-export const FILTER_ROW_H = 18
+// Bottom strip — pills on the left, trash hitbox over the trash-button image (x 351..377, y 349..373).
+const FILTER_ROW_LEFT = 188
+export const FILTER_ROW_Y = 354
+export const FILTER_ROW_H = 16
 
-const PILL_W = 48
-const PILL_GAP = 4
+const PILL_W = 44
+const PILL_GAP = 3
 
 const OPTIONS: { value: TaskFilter; label: string }[] = [
   { value: 'all', label: 'all' },
@@ -22,11 +22,15 @@ const OPTIONS: { value: TaskFilter; label: string }[] = [
   { value: 'done', label: 'done' }
 ]
 
-// Clickable area over the trash-button image so it actually deletes done tasks.
 const TRASH_HITBOX = { left: 351, top: 349, width: 26, height: 24 }
 
-export function TaskFilters({ filter, setFilter, onClearDone }: TaskFiltersProps): React.JSX.Element {
-  const fontSize = designVw(8)
+export function TaskFilters({
+  filter,
+  setFilter,
+  onDeleteSelected,
+  hasSelection
+}: TaskFiltersProps): React.JSX.Element {
+  const fontSize = designVw(7)
   return (
     <>
       {OPTIONS.map((opt, i) => (
@@ -46,10 +50,11 @@ export function TaskFilters({ filter, setFilter, onClearDone }: TaskFiltersProps
         </button>
       ))}
       <button
-        className="task-trash-hitbox"
-        onClick={onClearDone}
-        aria-label="Clear completed tasks"
-        title="Clear completed tasks"
+        className={`task-trash-hitbox ${hasSelection ? 'is-armed' : 'is-disabled'}`}
+        onClick={onDeleteSelected}
+        disabled={!hasSelection}
+        aria-label="Delete selected task"
+        title={hasSelection ? 'Delete selected task' : 'Select a task first'}
         style={{
           left: pct(TRASH_HITBOX.left),
           top: pct(TRASH_HITBOX.top),

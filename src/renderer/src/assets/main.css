@@ -179,16 +179,28 @@
   cursor: not-allowed;
 }
 
-/* Tasks panel — pink-cream pill rows with drag handle, checkbox, text, pomodoro counter, delete. */
+/* Tasks panel — minimal list of rows; row = checkbox + text + pomodoro counter.
+   Row is selectable (click to highlight) and draggable (grab anywhere on row). */
 .task-row {
   position: absolute;
-  display: block;
   color: #893760;
   font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
   -webkit-font-smoothing: none;
   font-smooth: never;
   -webkit-app-region: no-drag;
   line-height: 1;
+  cursor: grab;
+  border-radius: 4px;
+  transition: background 0.12s ease-out;
+}
+.task-row:hover {
+  background: rgba(244, 127, 162, 0.08);
+}
+.task-row.is-selected {
+  background: rgba(244, 127, 162, 0.18);
+}
+.task-row:active {
+  cursor: grabbing;
 }
 .task-row.is-drag-over::before {
   content: '';
@@ -201,11 +213,8 @@
   pointer-events: none;
 }
 
-.task-drag-handle,
 .task-checkbox,
 .task-text,
-.task-pomo,
-.task-delete,
 .task-edit-input {
   position: absolute;
   top: 0;
@@ -218,17 +227,6 @@
   font: inherit;
   cursor: pointer;
   -webkit-app-region: no-drag;
-}
-
-.task-drag-handle {
-  cursor: grab;
-  color: #d39fac;
-  letter-spacing: -0.2em;
-  transform: translateY(0.2em);
-}
-.task-drag-handle:active {
-  cursor: grabbing;
-  color: #893760;
 }
 
 .task-checkbox {
@@ -263,9 +261,6 @@
   color: #d39fac;
   text-decoration: line-through;
 }
-.task-text:hover {
-  color: #c96580;
-}
 
 .task-edit-input {
   background: #feddde;
@@ -278,72 +273,69 @@
   font-smooth: never;
 }
 
-.task-pomo {
-  text-align: center;
-  transform: translateY(0.3em);
-  white-space: nowrap;
-}
-.task-pomo:hover {
-  color: #c96580;
-}
-
-.task-delete {
-  color: #d39fac;
-  transform: translateY(0.1em);
-  font-weight: bold;
-}
-.task-delete:hover {
-  color: #c96580;
-  transform: translateY(0.1em) scale(1.15);
-}
-
-/* Add-task row — pill input + square "+" button on the right. */
-.task-add-row {
-  position: absolute;
-  color: #893760;
-  font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
-  -webkit-font-smoothing: none;
-  font-smooth: never;
-  -webkit-app-region: no-drag;
-  line-height: 1;
-}
-.task-add-input,
-.task-add-btn {
+/* Pomodoro counter — number + 🍓 by default; − / + arrows appear on row hover. */
+.task-pomo-group {
   position: absolute;
   top: 0;
   height: 100%;
-  font: inherit;
-  -webkit-font-smoothing: none;
-  font-smooth: never;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25em;
   -webkit-app-region: no-drag;
 }
-.task-add-input {
-  left: 0;
-  background: #feddde;
-  border: 1px solid #d39fac;
-  border-radius: 6px;
-  outline: none;
-  padding: 0 0.6em;
+.task-pomo-step {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: #c96580;
+  font: inherit;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(0.2em);
+  -webkit-app-region: no-drag;
+  transition:
+    opacity 0.12s ease-out,
+    color 0.12s ease-out;
+}
+.task-row:hover .task-pomo-step,
+.task-row.is-selected .task-pomo-step {
+  opacity: 1;
+}
+.task-pomo-step:hover:not(:disabled) {
   color: #893760;
 }
-.task-add-input::placeholder {
-  color: #d39fac;
+.task-pomo-step:disabled {
+  cursor: not-allowed;
+  opacity: 0.15;
 }
-.task-add-input:focus {
-  border-color: #c96580;
+.task-pomo-value {
+  color: #893760;
+  white-space: nowrap;
+  transform: translateY(0.3em);
+  pointer-events: none;
 }
+
+/* Standalone "+" button (top-right of tasks content area) that opens the AddTaskOverlay. */
 .task-add-btn {
+  position: absolute;
   background: #f47fa2;
   border: 1px solid #c96580;
-  border-radius: 6px;
+  border-radius: 4px;
   color: #ffffff;
+  font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
   cursor: pointer;
-  padding: 0;
+  -webkit-app-region: no-drag;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  line-height: 1;
   transition:
-    background 0.15s ease-out,
+    filter 0.12s ease-out,
     transform 0.08s ease-out;
 }
 .task-add-btn:hover {
@@ -351,6 +343,137 @@
 }
 .task-add-btn:active {
   transform: translateY(1px);
+}
+
+/* Add-task overlay — slides down from inside the tasks panel header, covers top portion. */
+.task-add-overlay {
+  position: absolute;
+  background: #feddde;
+  border: 1px solid #c96580;
+  border-radius: 6px;
+  box-shadow: 0 2px 0 rgba(137, 55, 96, 0.12);
+  color: #893760;
+  font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  -webkit-app-region: no-drag;
+  animation: task-add-overlay-in 0.18s ease-out;
+}
+@keyframes task-add-overlay-in {
+  from {
+    transform: translateY(-6%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.task-add-overlay-title {
+  position: absolute;
+  color: #893760;
+  line-height: 1;
+  transform: translateY(0.3em);
+  pointer-events: none;
+}
+.task-add-overlay-close {
+  position: absolute;
+  background: transparent;
+  border: none;
+  color: #893760;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  font-family: inherit;
+  -webkit-app-region: no-drag;
+}
+.task-add-overlay-close:hover {
+  color: #c96580;
+}
+.task-add-overlay-input {
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid #d39fac;
+  border-radius: 4px;
+  outline: none;
+  padding: 0 0.5em;
+  color: #893760;
+  font: inherit;
+  font-family: inherit;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+.task-add-overlay-input::placeholder {
+  color: #d39fac;
+}
+.task-add-overlay-input:focus {
+  border-color: #c96580;
+}
+.task-add-overlay-pomo {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  line-height: 1;
+}
+.task-add-overlay-pomo-label {
+  color: #893760;
+  transform: translateY(0.3em);
+}
+.task-add-overlay-pomo-value {
+  color: #893760;
+  white-space: nowrap;
+  transform: translateY(0.3em);
+}
+.task-add-overlay-step {
+  background: transparent;
+  border: none;
+  color: #c96580;
+  font: inherit;
+  cursor: pointer;
+  padding: 0 0.2em;
+  transform: translateY(0.2em);
+  -webkit-app-region: no-drag;
+}
+.task-add-overlay-step:hover:not(:disabled) {
+  color: #893760;
+}
+.task-add-overlay-step:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.task-add-overlay-cancel,
+.task-add-overlay-save {
+  position: absolute;
+  border-radius: 999px;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  font-family: inherit;
+}
+.task-add-overlay-cancel {
+  background: #feddde;
+  border: 1px solid #d39fac;
+  color: #893760;
+}
+.task-add-overlay-cancel:hover {
+  filter: brightness(1.04);
+}
+.task-add-overlay-save {
+  background: #f47fa2;
+  border: 1px solid #c96580;
+  color: #ffffff;
+}
+.task-add-overlay-save:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+.task-add-overlay-save:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 /* Filter row — three pills (all / active / done) + clickable trash hitbox. */
@@ -392,12 +515,19 @@
   background: transparent;
   border: none;
   padding: 0;
-  cursor: pointer;
   -webkit-app-region: no-drag;
-}
-.task-trash-hitbox:hover {
-  background: rgba(201, 101, 128, 0.12);
   border-radius: 4px;
+  transition: background 0.12s ease-out;
+}
+.task-trash-hitbox.is-armed {
+  cursor: pointer;
+}
+.task-trash-hitbox.is-armed:hover {
+  background: rgba(201, 101, 128, 0.15);
+}
+.task-trash-hitbox.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .drag-region {
