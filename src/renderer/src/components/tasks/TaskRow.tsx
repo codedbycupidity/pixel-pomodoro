@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { designVw, pct } from '../../lib/canvas'
-import { MAX_POMODOROS_PER_TASK, type Task } from '../../lib/tasks'
+import type { Task } from '../../lib/tasks'
 
 interface TaskRowProps {
   task: Task
@@ -10,17 +10,16 @@ interface TaskRowProps {
   onSelect: () => void
   onToggle: () => void
   onTextChange: (text: string) => void
-  onPomodorosChange: (n: number) => void
   onDragStart: () => void
   onDragOver: () => void
   onDragEnd: () => void
   onDrop: () => void
 }
 
-// Row geometry — sits inside the tasks-frame content band (x 185..375, y 175..343).
+// Row geometry — sits inside the tasks-frame content band.
 export const TASK_ROW_LEFT = 188
 export const TASK_ROW_W = 184
-export const TASK_ROW_HEIGHT = 22
+export const TASK_ROW_HEIGHT = 20
 
 export function TaskRow({
   task,
@@ -30,7 +29,6 @@ export function TaskRow({
   onSelect,
   onToggle,
   onTextChange,
-  onPomodorosChange,
   onDragStart,
   onDragOver,
   onDragEnd,
@@ -43,13 +41,6 @@ export function TaskRow({
     const next = editText.trim()
     if (next && next !== task.text) onTextChange(next)
     setEditing(false)
-  }
-
-  function decPomo(): void {
-    if (task.pomodoros > 1) onPomodorosChange(task.pomodoros - 1)
-  }
-  function incPomo(): void {
-    if (task.pomodoros < MAX_POMODOROS_PER_TASK) onPomodorosChange(task.pomodoros + 1)
   }
 
   return (
@@ -117,32 +108,6 @@ export function TaskRow({
           {task.text}
         </button>
       )}
-
-      <div className="task-pomo-group">
-        <button
-          className="task-pomo-step"
-          onClick={(e) => {
-            e.stopPropagation()
-            decPomo()
-          }}
-          disabled={task.pomodoros <= 1}
-          aria-label="Decrease pomodoros"
-        >
-          −
-        </button>
-        <span className="task-pomo-value">{task.pomodoros} 🍓</span>
-        <button
-          className="task-pomo-step"
-          onClick={(e) => {
-            e.stopPropagation()
-            incPomo()
-          }}
-          disabled={task.pomodoros >= MAX_POMODOROS_PER_TASK}
-          aria-label="Increase pomodoros"
-        >
-          +
-        </button>
-      </div>
     </div>
   )
 }

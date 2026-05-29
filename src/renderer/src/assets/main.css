@@ -278,216 +278,87 @@
   font-family: inherit;
 }
 
-/* Pomodoro counter — value visible always; arrows appear on row hover / selection. */
-.task-pomo-group {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 0.2em;
-  line-height: 1.4;
-}
-.task-pomo-step {
-  background: transparent;
-  border: none;
-  padding: 0 0.15em;
-  margin: 0;
-  color: #c96580;
-  font: inherit;
-  cursor: pointer;
-  opacity: 0;
-  -webkit-app-region: no-drag;
-  transition:
-    opacity 0.12s ease-out,
-    color 0.12s ease-out;
-}
-.task-row:hover .task-pomo-step,
-.task-row.is-selected .task-pomo-step {
-  opacity: 1;
-}
-.task-pomo-step:hover:not(:disabled) {
-  color: #893760;
-}
-.task-pomo-step:disabled {
-  cursor: not-allowed;
-  opacity: 0.15;
-}
-.task-pomo-value {
-  color: #893760;
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-/* Standalone "+" button (top-right of tasks content area) that opens the AddTaskOverlay. */
-.task-add-btn {
+/* Inline add-task row at the top of the tasks list — text input + pixel-art "+" button. */
+.task-add-row {
   position: absolute;
-  background: #f47fa2;
-  border: 1px solid #c96580;
-  border-radius: 4px;
-  color: #ffffff;
+  display: flex;
+  align-items: stretch;
+  gap: 0.35em;
+  color: #893760;
   font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
   -webkit-font-smoothing: none;
   font-smooth: never;
+  -webkit-app-region: no-drag;
+  line-height: 1;
+  box-sizing: border-box;
+}
+.task-add-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: #ffffff;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  padding: 0 0.5em;
+  color: #893760;
+  font: inherit;
+  font-family: inherit;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  -webkit-app-region: no-drag;
+  box-shadow:
+    inset 1px 1px 0 #c96580,
+    inset -1px -1px 0 #ffeef0,
+    0 0 0 1px #893760;
+}
+.task-add-input::placeholder {
+  color: #d39fac;
+}
+
+.task-add-btn {
+  flex: 0 0 auto;
+  width: 1.6em;
+  background: #feddde;
+  border: none;
+  border-radius: 3px;
+  color: #893760;
+  font: inherit;
+  font-family: inherit;
   cursor: pointer;
+  padding: 0;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
   -webkit-app-region: no-drag;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  line-height: 1;
-  transition:
-    filter 0.12s ease-out,
-    transform 0.08s ease-out;
+  image-rendering: pixelated;
+  /* matching raised pixel bevel from the filter trash button */
+  box-shadow:
+    inset 1px 1px 0 #ffeef0,
+    inset -1px -1px 0 #c96580,
+    0 0 0 1px #893760;
+  transition: transform 0.06s ease-out;
 }
-.task-add-btn:hover {
-  filter: brightness(1.06);
+.task-add-btn:hover:not(:disabled) {
+  background: #ffeef0;
 }
-.task-add-btn:active {
+.task-add-btn:active:not(:disabled) {
+  /* flip bevel inward */
+  box-shadow:
+    inset 1px 1px 0 #c96580,
+    inset -1px -1px 0 #ffeef0,
+    0 0 0 1px #893760;
   transform: translateY(1px);
 }
-
-/* Add-task overlay — flex column inside the tasks panel content area. */
-.task-add-overlay {
-  position: absolute;
-  background: #feddde;
-  border: 1px solid #c96580;
-  border-radius: 6px;
-  box-shadow: 0 2px 0 rgba(137, 55, 96, 0.12);
-  color: #893760;
-  font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
-  -webkit-font-smoothing: none;
-  font-smooth: never;
-  -webkit-app-region: no-drag;
-  padding: 0.8em;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7em;
-  line-height: 1;
-  box-sizing: border-box;
-  animation: task-add-overlay-in 0.18s ease-out;
-}
-@keyframes task-add-overlay-in {
-  from {
-    transform: translateY(-6%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.task-add-overlay-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 1.25em;
-}
-.task-add-overlay-title {
-  color: #893760;
-  line-height: 1.4;
-}
-.task-add-overlay-close {
-  background: transparent;
-  border: none;
-  color: #893760;
-  cursor: pointer;
-  padding: 0 0.3em;
-  font: inherit;
-  font-family: inherit;
-  -webkit-app-region: no-drag;
-  line-height: 1;
-}
-.task-add-overlay-close:hover {
-  color: #c96580;
-}
-
-.task-add-overlay-input {
-  background: #ffffff;
-  border: 1px solid #d39fac;
-  border-radius: 4px;
-  outline: none;
-  padding: 0.4em 0.5em;
-  color: #893760;
-  font: inherit;
-  font-family: inherit;
-  -webkit-font-smoothing: none;
-  font-smooth: never;
-  line-height: 1.4;
-}
-.task-add-overlay-input::placeholder {
-  color: #d39fac;
-}
-.task-add-overlay-input:focus {
-  border-color: #c96580;
-}
-
-.task-add-overlay-pomo {
-  display: flex;
-  align-items: center;
-  gap: 0.4em;
-  line-height: 1.4;
-}
-.task-add-overlay-pomo-label {
-  color: #893760;
-  flex: 1 1 auto;
-}
-.task-add-overlay-pomo-value {
-  color: #893760;
-  white-space: nowrap;
-}
-.task-add-overlay-step {
-  background: transparent;
-  border: none;
-  color: #c96580;
-  font: inherit;
-  cursor: pointer;
-  padding: 0 0.25em;
-  -webkit-app-region: no-drag;
-  line-height: 1;
-}
-.task-add-overlay-step:hover:not(:disabled) {
-  color: #893760;
-}
-.task-add-overlay-step:disabled {
-  opacity: 0.3;
+.task-add-btn:disabled {
   cursor: not-allowed;
-}
-
-.task-add-overlay-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.4em;
-  margin-top: auto;
-}
-.task-add-overlay-cancel,
-.task-add-overlay-save {
-  border-radius: 999px;
-  cursor: pointer;
-  -webkit-app-region: no-drag;
-  padding: 0.35em 1em;
-  font: inherit;
-  font-family: inherit;
-  line-height: 1;
-}
-.task-add-overlay-cancel {
-  background: #feddde;
-  border: 1px solid #d39fac;
-  color: #893760;
-}
-.task-add-overlay-cancel:hover {
-  filter: brightness(1.04);
-}
-.task-add-overlay-save {
-  background: #f47fa2;
-  border: 1px solid #c96580;
-  color: #ffffff;
-}
-.task-add-overlay-save:hover:not(:disabled) {
-  filter: brightness(1.06);
-}
-.task-add-overlay-save:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
+  background: #e8c5cc;
+  box-shadow:
+    inset 1px 1px 0 #f0d5da,
+    inset -1px -1px 0 #d39fac,
+    0 0 0 1px #a86981;
+  opacity: 0.7;
 }
 
 /* Retro pixel-art segmented filter — solid colors, sharp 1px steps, no smooth gradients.

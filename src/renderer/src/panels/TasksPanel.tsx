@@ -1,24 +1,23 @@
 import { useState } from 'react'
-import { AddTaskButton } from '../components/tasks/AddTaskButton'
-import { AddTaskOverlay } from '../components/tasks/AddTaskOverlay'
+import { AddTaskInput } from '../components/tasks/AddTaskInput'
 import { TaskFilters } from '../components/tasks/TaskFilters'
 import { TaskRow, TASK_ROW_HEIGHT } from '../components/tasks/TaskRow'
-import { applyTaskFilter, type Task, type TaskFilter } from '../lib/tasks'
+import { applyTaskFilter, newTask, type Task, type TaskFilter } from '../lib/tasks'
 
 interface TasksPanelProps {
   tasks: Task[]
   setTasks: (updater: (prev: Task[]) => Task[]) => void
 }
 
-// Layout — within tasks-frame.png content band (y 165..348 in 512 design canvas).
-const LIST_TOP = 192
+// Layout — within tasks-frame.png content band.
+const ADD_INPUT_Y = 173
+const LIST_TOP = 198
 const LIST_GAP = 1
 const MAX_VISIBLE_ROWS = 7
 
 export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Element {
   const [filter, setFilter] = useState<TaskFilter>('all')
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [showAddOverlay, setShowAddOverlay] = useState(false)
   const [dragIndex, setDragIndex] = useState<number | null>(null)
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null)
 
@@ -30,13 +29,8 @@ export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Elem
     setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, ...patch } : t)))
   }
 
-  function addTask(text: string, pomodoros: number): void {
-    const id =
-      typeof crypto !== 'undefined' && crypto.randomUUID
-        ? crypto.randomUUID()
-        : `t-${Date.now()}`
-    setTasks((prev) => [...prev, { id, text, pomodoros, done: false }])
-    setShowAddOverlay(false)
+  function addTask(text: string): void {
+    setTasks((prev) => [...prev, newTask(text)])
   }
 
   function deleteSelected(): void {
@@ -45,7 +39,7 @@ export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Elem
     setSelectedId(null)
   }
 
-  // Reorder applies to the *unfiltered* tasks array using id identity, so dragging
+  // Reorder applies to the unfiltered tasks array using id identity, so dragging
   // works regardless of which filter view is active.
   function reorder(): void {
     if (dragIndex === null || dragOverIndex === null || dragIndex === dragOverIndex) return
@@ -70,7 +64,7 @@ export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Elem
 
   return (
     <>
-      <AddTaskButton onClick={() => setShowAddOverlay(true)} />
+      <AddTaskInput y={ADD_INPUT_Y} onAdd={addTask} />
 
       {visible.map((task, i) => (
         <TaskRow
@@ -82,7 +76,6 @@ export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Elem
           onSelect={() => setSelectedId(task.id === selectedId ? null : task.id)}
           onToggle={() => patchTask(task.id, { done: !task.done })}
           onTextChange={(text) => patchTask(task.id, { text })}
-          onPomodorosChange={(pomodoros) => patchTask(task.id, { pomodoros })}
           onDragStart={() => setDragIndex(i)}
           onDragOver={() => setDragOverIndex(i)}
           onDragEnd={endDrag}
@@ -99,10 +92,6 @@ export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Elem
         onDeleteSelected={deleteSelected}
         hasSelection={hasSelection}
       />
-
-      {showAddOverlay && (
-        <AddTaskOverlay onSave={addTask} onCancel={() => setShowAddOverlay(false)} />
-      )}
     </>
   )
 }

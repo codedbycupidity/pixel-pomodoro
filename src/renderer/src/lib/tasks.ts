@@ -2,7 +2,6 @@ export interface Task {
   id: string
   text: string
   done: boolean
-  pomodoros: number
 }
 
 export type TaskFilter = 'all' | 'active' | 'done'
@@ -16,11 +15,9 @@ export function applyTaskFilter(tasks: Task[], filter: TaskFilter): Task[] {
 const STORAGE_KEY = 'pixel-pomodoro-tasks'
 
 const DEFAULT_TASKS: Task[] = [
-  { id: 'seed-1', text: 'finish design', done: false, pomodoros: 2 },
-  { id: 'seed-2', text: 'reply to emails', done: false, pomodoros: 1 }
+  { id: 'seed-1', text: 'finish design', done: false },
+  { id: 'seed-2', text: 'reply to emails', done: false }
 ]
-
-export const MAX_POMODOROS_PER_TASK = 9
 
 export function loadTasks(): Task[] {
   try {
@@ -28,14 +25,15 @@ export function loadTasks(): Task[] {
     if (!raw) return DEFAULT_TASKS
     const parsed = JSON.parse(raw)
     if (!Array.isArray(parsed)) return DEFAULT_TASKS
-    return parsed.filter(
-      (t): t is Task =>
-        t &&
-        typeof t.id === 'string' &&
-        typeof t.text === 'string' &&
-        typeof t.done === 'boolean' &&
-        typeof t.pomodoros === 'number'
-    )
+    return parsed
+      .filter(
+        (t) =>
+          t &&
+          typeof t.id === 'string' &&
+          typeof t.text === 'string' &&
+          typeof t.done === 'boolean'
+      )
+      .map((t) => ({ id: t.id, text: t.text, done: t.done }))
   } catch {
     return DEFAULT_TASKS
   }
@@ -53,7 +51,6 @@ export function newTask(text: string): Task {
   return {
     id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `t-${Date.now()}`,
     text,
-    done: false,
-    pomodoros: 1
+    done: false
   }
 }
