@@ -8,13 +8,16 @@ interface TaskFiltersProps {
   hasSelection: boolean
 }
 
-// Bottom strip — pills on the left, trash hitbox over the trash-button image (x 351..377, y 349..373).
-const FILTER_ROW_LEFT = 188
-export const FILTER_ROW_Y = 354
-export const FILTER_ROW_H = 16
+// Bottom strip — segmented control on the left, standalone trash button on the right.
+const SEGMENTS_LEFT = 188
+const SEGMENTS_W = 140
+const SEGMENTS_TOP = 351
+const SEGMENTS_H = 18
 
-const PILL_W = 44
-const PILL_GAP = 3
+const TRASH_LEFT = 336
+const TRASH_TOP = 351
+const TRASH_W = 24
+const TRASH_H = 18
 
 const OPTIONS: { value: TaskFilter; label: string }[] = [
   { value: 'all', label: 'all' },
@@ -22,7 +25,30 @@ const OPTIONS: { value: TaskFilter; label: string }[] = [
   { value: 'done', label: 'done' }
 ]
 
-const TRASH_HITBOX = { left: 351, top: 349, width: 26, height: 24 }
+// Pixel-art trash icon (12x12 viewBox).
+function TrashIcon(): React.JSX.Element {
+  return (
+    <svg
+      className="task-trash-icon"
+      viewBox="0 0 12 12"
+      shapeRendering="crispEdges"
+      aria-hidden="true"
+    >
+      {/* lid handle */}
+      <rect x="4" y="1" width="4" height="1" fill="currentColor" />
+      {/* lid */}
+      <rect x="1" y="2" width="10" height="1" fill="currentColor" />
+      {/* body outline */}
+      <rect x="2" y="3" width="1" height="8" fill="currentColor" />
+      <rect x="9" y="3" width="1" height="8" fill="currentColor" />
+      <rect x="2" y="11" width="8" height="1" fill="currentColor" />
+      {/* inner vertical stripes */}
+      <rect x="4" y="4" width="1" height="6" fill="currentColor" />
+      <rect x="6" y="4" width="1" height="6" fill="currentColor" />
+      <rect x="8" y="4" width="1" height="6" fill="currentColor" />
+    </svg>
+  )
+}
 
 export function TaskFilters({
   filter,
@@ -33,35 +59,43 @@ export function TaskFilters({
   const fontSize = designVw(7)
   return (
     <>
-      {OPTIONS.map((opt, i) => (
-        <button
-          key={opt.value}
-          className={`task-filter ${filter === opt.value ? 'is-active' : ''}`}
-          onClick={() => setFilter(opt.value)}
-          style={{
-            left: pct(FILTER_ROW_LEFT + i * (PILL_W + PILL_GAP)),
-            top: pct(FILTER_ROW_Y),
-            width: pct(PILL_W),
-            height: pct(FILTER_ROW_H),
-            fontSize
-          }}
-        >
-          <span>{opt.label}</span>
-        </button>
-      ))}
+      <div
+        className="task-filter-segments"
+        style={{
+          left: pct(SEGMENTS_LEFT),
+          top: pct(SEGMENTS_TOP),
+          width: pct(SEGMENTS_W),
+          height: pct(SEGMENTS_H),
+          fontSize
+        }}
+      >
+        {OPTIONS.map((opt) => (
+          <button
+            key={opt.value}
+            className={`task-filter-segment ${filter === opt.value ? 'is-active' : ''}`}
+            onClick={() => setFilter(opt.value)}
+          >
+            <span>{opt.label}</span>
+          </button>
+        ))}
+      </div>
+
       <button
-        className={`task-trash-hitbox ${hasSelection ? 'is-armed' : 'is-disabled'}`}
+        className={`task-trash-btn ${hasSelection ? '' : 'is-disabled'}`}
         onClick={onDeleteSelected}
         disabled={!hasSelection}
         aria-label="Delete selected task"
         title={hasSelection ? 'Delete selected task' : 'Select a task first'}
         style={{
-          left: pct(TRASH_HITBOX.left),
-          top: pct(TRASH_HITBOX.top),
-          width: pct(TRASH_HITBOX.width),
-          height: pct(TRASH_HITBOX.height)
+          left: pct(TRASH_LEFT),
+          top: pct(TRASH_TOP),
+          width: pct(TRASH_W),
+          height: pct(TRASH_H),
+          fontSize
         }}
-      />
+      >
+        <TrashIcon />
+      </button>
     </>
   )
 }

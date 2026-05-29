@@ -54,7 +54,9 @@ export const SKIP_TEXT_NAMES = new Set(['+3'])
 // Image-node skip patterns (dynamic content handled separately).
 export const SKIP_IMAGE_PATTERNS: RegExp[] = [
   /^completed-strawberry/,
-  /^empty-strawberry/
+  /^empty-strawberry/,
+  // Tasks panel renders its own CSS trash button — skip the static PNG overlay.
+  /^tasks-trash-button/
 ]
 
 export function classifyTextNode(node: FigmaTextNode): PanelId | 'always' {
