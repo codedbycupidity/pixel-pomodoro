@@ -10,6 +10,13 @@ export function pct(value: number): string {
   return `${(value / CANVAS) * 100}%`
 }
 
+// Percentage relative to a non-canvas parent of `parentDesignWidth` design units.
+// Use this when positioning a child of a wrapper (e.g. a row or overlay), since plain
+// pct() assumes the parent is the 512-unit-wide canvas.
+export function pctOf(value: number, parentDesignWidth: number): string {
+  return `${(value / parentDesignWidth) * 100}%`
+}
+
 // Convert a Figma design-pixel size to a vw value that matches the visible frame scale.
 export function designVw(designPx: number): string {
   return `${(designPx / FRAME_W) * 100}vw`

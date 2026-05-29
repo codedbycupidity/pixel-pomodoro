@@ -179,10 +179,13 @@
   cursor: not-allowed;
 }
 
-/* Tasks panel — minimal list of rows; row = checkbox + text + pomodoro counter.
-   Row is selectable (click to highlight) and draggable (grab anywhere on row). */
+/* Tasks panel — row = checkbox + text + pomodoro counter (flex layout). */
 .task-row {
   position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0 0.3em;
   color: #893760;
   font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
   -webkit-font-smoothing: none;
@@ -192,12 +195,13 @@
   cursor: grab;
   border-radius: 4px;
   transition: background 0.12s ease-out;
+  box-sizing: border-box;
 }
 .task-row:hover {
-  background: rgba(244, 127, 162, 0.08);
+  background: rgba(244, 127, 162, 0.1);
 }
 .task-row.is-selected {
-  background: rgba(244, 127, 162, 0.18);
+  background: rgba(244, 127, 162, 0.2);
 }
 .task-row:active {
   cursor: grabbing;
@@ -213,30 +217,23 @@
   pointer-events: none;
 }
 
-.task-checkbox,
-.task-text,
-.task-edit-input {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-  -webkit-app-region: no-drag;
-}
-
 .task-checkbox {
+  flex: 0 0 auto;
+  width: 1.2em;
+  height: 1.2em;
   border: 1px solid #d39fac;
   background: #feddde;
-  border-radius: 3px;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
   line-height: 1;
+  -webkit-app-region: no-drag;
   transition:
     background 0.15s ease-out,
     border-color 0.15s ease-out;
@@ -250,50 +247,54 @@
   filter: brightness(1.04);
 }
 
-.task-text {
+.task-text,
+.task-edit-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
   text-align: left;
-  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  -webkit-app-region: no-drag;
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
-  transform: translateY(0.3em);
+  line-height: 1.4;
 }
 .task-text.is-done {
   color: #d39fac;
   text-decoration: line-through;
 }
-
 .task-edit-input {
-  background: #feddde;
+  background: #ffffff;
   border: 1px solid #c96580;
   border-radius: 3px;
   outline: none;
   padding: 0 0.3em;
   font-family: inherit;
-  -webkit-font-smoothing: none;
-  font-smooth: never;
 }
 
-/* Pomodoro counter — number + 🍓 by default; − / + arrows appear on row hover. */
+/* Pomodoro counter — value visible always; arrows appear on row hover / selection. */
 .task-pomo-group {
-  position: absolute;
-  top: 0;
-  height: 100%;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 0.25em;
-  -webkit-app-region: no-drag;
+  gap: 0.2em;
+  line-height: 1.4;
 }
 .task-pomo-step {
   background: transparent;
   border: none;
-  padding: 0;
+  padding: 0 0.15em;
   margin: 0;
   color: #c96580;
   font: inherit;
   cursor: pointer;
   opacity: 0;
-  transform: translateY(0.2em);
   -webkit-app-region: no-drag;
   transition:
     opacity 0.12s ease-out,
@@ -313,7 +314,6 @@
 .task-pomo-value {
   color: #893760;
   white-space: nowrap;
-  transform: translateY(0.3em);
   pointer-events: none;
 }
 
@@ -345,7 +345,7 @@
   transform: translateY(1px);
 }
 
-/* Add-task overlay — slides down from inside the tasks panel header, covers top portion. */
+/* Add-task overlay — flex column inside the tasks panel content area. */
 .task-add-overlay {
   position: absolute;
   background: #feddde;
@@ -357,6 +357,12 @@
   -webkit-font-smoothing: none;
   font-smooth: never;
   -webkit-app-region: no-drag;
+  padding: 0.8em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  line-height: 1;
+  box-sizing: border-box;
   animation: task-add-overlay-in 0.18s ease-out;
 }
 @keyframes task-add-overlay-in {
@@ -369,39 +375,44 @@
     opacity: 1;
   }
 }
+
+.task-add-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.25em;
+}
 .task-add-overlay-title {
-  position: absolute;
   color: #893760;
-  line-height: 1;
-  transform: translateY(0.3em);
-  pointer-events: none;
+  line-height: 1.4;
 }
 .task-add-overlay-close {
-  position: absolute;
   background: transparent;
   border: none;
   color: #893760;
   cursor: pointer;
-  padding: 0;
+  padding: 0 0.3em;
   font: inherit;
   font-family: inherit;
   -webkit-app-region: no-drag;
+  line-height: 1;
 }
 .task-add-overlay-close:hover {
   color: #c96580;
 }
+
 .task-add-overlay-input {
-  position: absolute;
   background: #ffffff;
   border: 1px solid #d39fac;
   border-radius: 4px;
   outline: none;
-  padding: 0 0.5em;
+  padding: 0.4em 0.5em;
   color: #893760;
   font: inherit;
   font-family: inherit;
   -webkit-font-smoothing: none;
   font-smooth: never;
+  line-height: 1.4;
 }
 .task-add-overlay-input::placeholder {
   color: #d39fac;
@@ -409,21 +420,20 @@
 .task-add-overlay-input:focus {
   border-color: #c96580;
 }
+
 .task-add-overlay-pomo {
-  position: absolute;
   display: flex;
   align-items: center;
   gap: 0.4em;
-  line-height: 1;
+  line-height: 1.4;
 }
 .task-add-overlay-pomo-label {
   color: #893760;
-  transform: translateY(0.3em);
+  flex: 1 1 auto;
 }
 .task-add-overlay-pomo-value {
   color: #893760;
   white-space: nowrap;
-  transform: translateY(0.3em);
 }
 .task-add-overlay-step {
   background: transparent;
@@ -431,9 +441,9 @@
   color: #c96580;
   font: inherit;
   cursor: pointer;
-  padding: 0 0.2em;
-  transform: translateY(0.2em);
+  padding: 0 0.25em;
   -webkit-app-region: no-drag;
+  line-height: 1;
 }
 .task-add-overlay-step:hover:not(:disabled) {
   color: #893760;
@@ -442,18 +452,22 @@
   opacity: 0.3;
   cursor: not-allowed;
 }
+
+.task-add-overlay-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4em;
+  margin-top: auto;
+}
 .task-add-overlay-cancel,
 .task-add-overlay-save {
-  position: absolute;
   border-radius: 999px;
   cursor: pointer;
   -webkit-app-region: no-drag;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.35em 1em;
   font: inherit;
   font-family: inherit;
+  line-height: 1;
 }
 .task-add-overlay-cancel {
   background: #feddde;

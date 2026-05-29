@@ -17,18 +17,10 @@ interface TaskRowProps {
   onDrop: () => void
 }
 
-// Row geometry — sits inside the tasks-frame content band (x 185..375, y 175..343 in 512-canvas).
+// Row geometry — sits inside the tasks-frame content band (x 185..375, y 175..343).
 export const TASK_ROW_LEFT = 188
 export const TASK_ROW_W = 184
-export const TASK_ROW_HEIGHT = 21
-
-// Inner column offsets, relative to TASK_ROW_LEFT. Sum to TASK_ROW_W (184).
-const CHECK_W = 11
-const TEXT_W = 110
-const POMO_W = 56
-const CHECK_OFFSET = 2
-const TEXT_OFFSET = CHECK_OFFSET + CHECK_W + 4 // 17
-const POMO_OFFSET = TEXT_OFFSET + TEXT_W + 2 // 129
+export const TASK_ROW_HEIGHT = 22
 
 export function TaskRow({
   task,
@@ -46,7 +38,6 @@ export function TaskRow({
 }: TaskRowProps): React.JSX.Element {
   const [editing, setEditing] = useState(false)
   const [editText, setEditText] = useState(task.text)
-  const fontSize = designVw(8)
 
   function commitEdit(): void {
     const next = editText.trim()
@@ -80,7 +71,8 @@ export function TaskRow({
         left: pct(TASK_ROW_LEFT),
         top: pct(y),
         width: pct(TASK_ROW_W),
-        height: pct(TASK_ROW_HEIGHT)
+        height: pct(TASK_ROW_HEIGHT),
+        fontSize: designVw(8)
       }}
     >
       <button
@@ -91,12 +83,6 @@ export function TaskRow({
         }}
         aria-pressed={task.done}
         aria-label={task.done ? 'Mark not done' : 'Mark done'}
-        style={{
-          left: pct(CHECK_OFFSET),
-          width: pct(CHECK_W),
-          height: pct(CHECK_W),
-          fontSize
-        }}
       >
         {task.done ? '✓' : ''}
       </button>
@@ -108,18 +94,13 @@ export function TaskRow({
           autoFocus
           onChange={(e) => setEditText(e.target.value)}
           onBlur={commitEdit}
+          onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => {
             if (e.key === 'Enter') (e.target as HTMLInputElement).blur()
             else if (e.key === 'Escape') {
               setEditText(task.text)
               setEditing(false)
             }
-          }}
-          onClick={(e) => e.stopPropagation()}
-          style={{
-            left: pct(TEXT_OFFSET),
-            width: pct(TEXT_W),
-            fontSize
           }}
         />
       ) : (
@@ -131,25 +112,13 @@ export function TaskRow({
             setEditText(task.text)
             setEditing(true)
           }}
-          style={{
-            left: pct(TEXT_OFFSET),
-            width: pct(TEXT_W),
-            fontSize
-          }}
           title="Click to edit"
         >
           {task.text}
         </button>
       )}
 
-      <div
-        className="task-pomo-group"
-        style={{
-          left: pct(POMO_OFFSET),
-          width: pct(POMO_W),
-          fontSize
-        }}
-      >
+      <div className="task-pomo-group">
         <button
           className="task-pomo-step"
           onClick={(e) => {
@@ -161,9 +130,7 @@ export function TaskRow({
         >
           −
         </button>
-        <span className="task-pomo-value">
-          {task.pomodoros} 🍓
-        </span>
+        <span className="task-pomo-value">{task.pomodoros} 🍓</span>
         <button
           className="task-pomo-step"
           onClick={(e) => {
