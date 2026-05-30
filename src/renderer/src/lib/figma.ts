@@ -49,14 +49,30 @@ const TEXT_NAME_TO_PANEL: Record<string, PanelId> = {
 }
 
 // Design placeholders that shouldn't render statically (dynamic counterparts replace them).
-export const SKIP_TEXT_NAMES = new Set(['+3'])
+// The tasks panel renders its own rows / filters / add field, so its placeholder
+// text nodes are skipped here (filter labels are baked into the filter PNGs).
+export const SKIP_TEXT_NAMES = new Set([
+  '+3',
+  'task description',
+  '+ add a task...',
+  'all',
+  'active',
+  'done'
+])
 
 // Image-node skip patterns (dynamic content handled separately).
 export const SKIP_IMAGE_PATTERNS: RegExp[] = [
   /^completed-strawberry/,
   /^empty-strawberry/,
-  // Tasks panel renders its own CSS trash button — skip the static PNG overlay.
-  /^tasks-trash-button/
+  // Tasks panel renders these sprites itself (rows, checkboxes, add field, filters,
+  // trash). Only "tasks-frame" stays as the static panel background.
+  /^tasks-trash-button/,
+  /^task\s+\d+$/,
+  /^checkbox(-done)?\s+\d+$/,
+  /^add(-task)?\s+\d+$/,
+  /^all\s+\d+$/,
+  /^active\s+\d+$/,
+  /^done\s+\d+$/
 ]
 
 export function classifyTextNode(node: FigmaTextNode): PanelId | 'always' {

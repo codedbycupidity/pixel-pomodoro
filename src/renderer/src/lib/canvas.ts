@@ -122,3 +122,93 @@ export const SETTINGS_ROWS = {
 
 // All settings controls right-align to this x in 512-canvas space.
 export const SETTINGS_CONTROLS_RIGHT_X = 375
+
+// ---------------------------------------------------------------------------
+// Tasks panel — Figma-exported sprites + layout (512-canvas design space).
+//
+// Each task PNG is a full-frame 512x512 export with the actual art baked at a
+// fixed offset. `SpriteBox` records the opaque content box (x,y,w,h) so we can
+// crop the sprite out with scale-independent background ratios via
+// spriteCropStyle() — no per-render pixel math needed.
+// ---------------------------------------------------------------------------
+
+export interface Box {
+  x: number
+  y: number
+  w: number
+  h: number
+}
+
+export interface SpriteBox extends Box {
+  src: string
+}
+
+export const TASK_SPRITES = {
+  // Row "slot": the pill art is 27px tall starting at y=207; we crop a PITCH-tall
+  // (32px) window so each row element includes a 5px gap to the next row.
+  row: { src: '/tasks/task.png', x: 188, y: 207, w: 183, h: 32 },
+  // Both checkbox states share one box (covers the checkmark overshoot) so they
+  // line up exactly when toggled.
+  checkbox: { src: '/tasks/checkbox.png', x: 195, y: 212, w: 17, h: 16 },
+  checkboxDone: { src: '/tasks/checkbox-done.png', x: 195, y: 212, w: 17, h: 16 },
+  addField: { src: '/tasks/add-task.png', x: 189, y: 174, w: 154, h: 23 },
+  addButton: { src: '/tasks/add.png', x: 347, y: 174, w: 24, h: 23 },
+  trash: { src: '/tasks/tasks-trash-button.png', x: 351, y: 349, w: 26, h: 24 }
+} as const
+
+// Filter bar: each PNG is the WHOLE 3-segment control (labels baked in) with one
+// segment shown selected. They share the same full-bar content box, so we render
+// only the one matching the active filter and overlay transparent segment hitboxes.
+export const TASK_FILTER_SPRITES: Record<TaskFilterKey, string> = {
+  all: '/tasks/all.png',
+  active: '/tasks/active.png',
+  done: '/tasks/done.png'
+}
+// Clickable segments — the filter bar (x 189..323) split into thirds at the
+// midpoints between the Figma label centers (all=210, active=254, done=301).
+export const TASK_FILTER_SEGMENTS: Record<TaskFilterKey, Box> = {
+  all: { x: 189, y: 347, w: 43, h: 22 },
+  active: { x: 232, y: 347, w: 45, h: 22 },
+  done: { x: 277, y: 347, w: 46, h: 22 }
+}
+
+// Label text boxes — copied exactly from the Figma "all" / "active" / "done" nodes.
+export const TASK_FILTER_LABELS: Record<TaskFilterKey, Box> = {
+  all: { x: 204, y: 352, w: 12, h: 17 },
+  active: { x: 241, y: 352, w: 30, h: 17 },
+  done: { x: 289, y: 352, w: 24, h: 17 }
+}
+
+type TaskFilterKey = 'all' | 'active' | 'done'
+
+// Pitch between consecutive task rows (row slot height).
+export const TASK_ROW_PITCH = TASK_SPRITES.row.h // 32
+
+// Scrollable task-list viewport: from the first row's top down toward the filter
+// bar. Height = 4 full rows (4 * pitch); extra rows scroll.
+export const TASK_LIST = {
+  x: TASK_SPRITES.row.x,
+  y: TASK_SPRITES.row.y,
+  w: TASK_SPRITES.row.w,
+  h: TASK_ROW_PITCH * 4
+}
+
+// Crop a full-frame sprite to its content box. Used only by the repeating task
+// rows (a single pill PNG reused at N positions); the single-instance assets
+// render full-frame instead. Returns plain CSS background props.
+export function spriteCropStyle(
+  s: SpriteBox,
+  canvas = CANVAS
+): {
+  backgroundImage: string
+  backgroundRepeat: string
+  backgroundSize: string
+  backgroundPosition: string
+} {
+  return {
+    backgroundImage: `url(${s.src})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: `${(canvas / s.w) * 100}% ${(canvas / s.h) * 100}%`,
+    backgroundPosition: `${(s.x / (canvas - s.w)) * 100}% ${(s.y / (canvas - s.h)) * 100}%`
+  }
+}

@@ -1,17 +1,14 @@
 import { useState } from 'react'
-import { designVw, pct } from '../../lib/canvas'
+import { designVw, pct, TASK_SPRITES } from '../../lib/canvas'
 
 interface AddTaskInputProps {
-  y: number
   onAdd: (text: string) => void
 }
 
-// Sits inside the tasks-frame content area (x 185..375).
-const ROW_LEFT = 188
-const ROW_W = 184
-const ROW_H = 18
+const FIELD = TASK_SPRITES.addField
+const BTN = TASK_SPRITES.addButton
 
-export function AddTaskInput({ y, onAdd }: AddTaskInputProps): React.JSX.Element {
+export function AddTaskInput({ onAdd }: AddTaskInputProps): React.JSX.Element {
   const [text, setText] = useState('')
 
   function submit(): void {
@@ -22,35 +19,39 @@ export function AddTaskInput({ y, onAdd }: AddTaskInputProps): React.JSX.Element
   }
 
   return (
-    <div
-      className="task-add-row"
-      style={{
-        left: pct(ROW_LEFT),
-        top: pct(y),
-        width: pct(ROW_W),
-        height: pct(ROW_H),
-        fontSize: designVw(8)
-      }}
-    >
+    <>
+      {/* Full-frame field + "+" button PNGs at their baked positions. */}
+      <img className="canvas-layer" src={FIELD.src} alt="" />
+      <img className="canvas-layer" src={BTN.src} alt="" />
+
+      {/* Text input overlaid on the field pill. */}
       <input
         className="task-add-input"
         value={text}
         placeholder="add a task..."
+        style={{
+          left: pct(FIELD.x),
+          top: pct(FIELD.y),
+          width: pct(FIELD.w),
+          height: pct(FIELD.h),
+          fontSize: designVw(8)
+        }}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === 'Enter') submit()
           else if (e.key === 'Escape') setText('')
         }}
       />
+
+      {/* Transparent click target over the "+" button. */}
       <button
-        className="task-add-btn"
+        className="task-hit"
         onClick={submit}
         disabled={!text.trim()}
         aria-label="Add task"
         title="Add task"
-      >
-        +
-      </button>
-    </div>
+        style={{ left: pct(BTN.x), top: pct(BTN.y), width: pct(BTN.w), height: pct(BTN.h) }}
+      />
+    </>
   )
 }
