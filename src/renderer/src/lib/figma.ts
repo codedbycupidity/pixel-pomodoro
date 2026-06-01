@@ -106,11 +106,18 @@ export function fillToCss(fill?: FigmaFill): string | undefined {
   return `rgba(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)}, ${a})`
 }
 
+export interface DynamicTextState {
+  pomodorosToday: number
+  timerCount: string
+  timerStatus: string
+  phaseLabel: string
+}
+
 // Substitute a Figma node's static text with dynamic state where applicable.
-export function dynamicTextFor(
-  name: string,
-  state: { pomodorosToday: number }
-): string | null {
+export function dynamicTextFor(name: string, state: DynamicTextState): string | null {
   if (name === 'number_completed') return String(state.pomodorosToday)
+  if (name === 'timer-count') return state.timerCount
+  if (name === 'timer-status') return state.timerStatus
+  if (name === 'STUDY TIME') return state.phaseLabel
   return null
 }

@@ -180,8 +180,8 @@
 }
 
 /* ----------------------------------------------------------------------------
-   Tasks panel — Figma sprite-based rows, add field, and filter pills.
-   Each control crops its art out of a full-frame PNG via spriteCropStyle().
+   Tasks panel — Figma sprite rows, add field, and filter pills. Single-instance
+   assets render full-frame (canvas-layer); the repeating rows use spriteCropStyle.
 ---------------------------------------------------------------------------- */
 
 /* Scrollable list viewport between the add field and the filter bar. */
@@ -218,7 +218,10 @@
 .task-row:active {
   cursor: grabbing;
 }
-/* Selecting a task has no visual treatment — the pill PNG is left as-is. */
+/* The pill PNG has its own border — show selection by darkening it slightly. */
+.task-row.is-selected {
+  filter: brightness(0.92);
+}
 .task-row.is-drag-over::before {
   content: '';
   position: absolute;
@@ -262,15 +265,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: text;
-  /* extra top padding so the pixel font sits lower / centered on the pill */
+  /* extra top padding so the pixel font sits centered on the pill */
   padding-top: 0.45em;
 }
 .task-text.is-done {
   color: #c79aa8;
   text-decoration: line-through;
 }
-/* Inline editing blends into the pill — no white box, just an editable caret.
-   line-height keeps the blinking caret short (≈ the text height). */
+/* Inline editing blends into the pill — no white box, short caret. */
 .task-edit-input {
   outline: none;
   background: transparent;
@@ -290,7 +292,6 @@
   font-smooth: never;
   -webkit-app-region: no-drag;
   box-sizing: border-box;
-  /* side insets + top nudge so the text sits inside / centered on the pill */
   padding: 0.5em 0.6em 0 0.6em;
 }
 .task-add-input::placeholder {
@@ -311,28 +312,6 @@
   cursor: not-allowed;
 }
 
-/* Trash PNG dims when there are no completed tasks to clear. */
-.task-trash-img.is-disabled {
-  opacity: 0.4;
-}
-
-/* Filter bar — a single full-width PNG (all/active/done state, with labels and
-   the selected segment baked in) sitting behind transparent segment hitboxes. */
-.task-filter-bar {
-  position: absolute;
-  image-rendering: pixelated;
-  pointer-events: none;
-}
-.task-filter-hit {
-  position: absolute;
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  -webkit-app-region: no-drag;
-}
-
 /* Filter labels — positioned at their exact Figma boxes, centered text. */
 .task-filter-label {
   position: absolute;
@@ -347,27 +326,9 @@
   color: #6c2b44;
 }
 
-/* Standalone trash button (tasks-trash-button.png). */
-.task-trash {
-  position: absolute;
-  border: none;
-  padding: 0;
-  margin: 0;
-  background-color: transparent;
-  image-rendering: pixelated;
-  cursor: pointer;
-  -webkit-app-region: no-drag;
-  transition: transform 0.06s ease-out;
-}
-.task-trash:hover:not(.is-disabled) {
-  filter: brightness(1.08);
-}
-.task-trash:active:not(.is-disabled) {
-  transform: translateY(1px);
-}
-.task-trash.is-disabled {
+/* Trash PNG dims when there are no completed tasks to clear. */
+.task-trash-img.is-disabled {
   opacity: 0.4;
-  cursor: not-allowed;
 }
 
 .drag-region {
@@ -428,4 +389,39 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 3px;
   cursor: pointer;
+}
+
+/* Cat-mood emotes (zzz / hearts) are rendered as <img> animation frames in
+   TimerEmote.tsx from the /animations art — no CSS needed for them.
+
+   Debug "skip" button — small pixel pill in the footer strip. */
+.timer-skip {
+  position: absolute;
+  -webkit-app-region: no-drag;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #893760;
+  background: #feddde;
+  border: none;
+  border-radius: 4px;
+  font-family: "Five Fonts at Freddy's", 'Courier New', monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  image-rendering: pixelated;
+  box-shadow:
+    inset 1px 1px 0 #ffeef0,
+    inset -1px -1px 0 #c96580,
+    0 0 0 1px #893760;
+  transition: transform 0.06s ease-out;
+}
+.timer-skip > span {
+  transform: translateY(0.12em);
+}
+.timer-skip:hover {
+  background: #ffeef0;
+}
+.timer-skip:active {
+  transform: translateY(1px);
 }

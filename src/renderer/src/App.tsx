@@ -16,6 +16,7 @@ import {
 import {
   classifyImageNode,
   classifyTextNode,
+  type DynamicTextState,
   dynamicTextFor,
   type FigmaImageNode,
   type FigmaTextNode,
@@ -25,10 +26,15 @@ import {
   stripFigmaSuffix
 } from './lib/figma'
 import { loadTasks, saveTasks, type Task } from './lib/tasks'
+import { formatTime, useTimer } from './lib/useTimer'
 import { SettingsPanel, type SettingsState } from './panels/SettingsPanel'
 import { StatsPanel } from './panels/StatsPanel'
 import { TasksPanel } from './panels/TasksPanel'
 import { TimerPanel } from './panels/TimerPanel'
+import { TimerEmote } from './components/timer/TimerEmote'
+
+// Play/pause button hitbox (matches the play/pause art at design 232,312).
+const PLAY_HITBOX = { left: 235, top: 325, width: 82, height: 28 }
 
 function hitboxStyle(h: Hitbox, debug: boolean): CSSProperties {
   return {
@@ -40,30 +46,43 @@ function hitboxStyle(h: Hitbox, debug: boolean): CSSProperties {
   }
 }
 
-function renderFigmaText(node: FigmaTextNode, pomodorosToday: number): React.JSX.Element {
+function renderFigmaText(node: FigmaTextNode, dyn: DynamicTextState): React.JSX.Element {
   const bbox = node.bboxRelative ?? node.bbox
-  const text = dynamicTextFor(node.name, { pomodorosToday }) ?? node.text
+  const text = dynamicTextFor(node.name, dyn) ?? node.text
   // Shift "pomodoros completed" right when the count grows from 1 to 2+ digits
   // so the visual gap between number and label stays constant.
   const NUMBER_DIGIT_WIDTH_AT_FS20 = 11
-  const extraDigits = Math.max(0, String(pomodorosToday).length - 1)
+  const extraDigits = Math.max(0, String(dyn.pomodorosToday).length - 1)
   const leftOffset =
     node.name === 'pomodoros completed' ? extraDigits * NUMBER_DIGIT_WIDTH_AT_FS20 : 0
+
+  // The phase label swaps to wider text ("SHORT BREAK" / "LONG BREAK") that would
+  // wrap inside the narrow "STUDY TIME" box — keep it on one line, centered on the
+  // box's center so every phase stays put.
+  const base: CSSProperties = {
+    top: pct(bbox.y),
+    height: pct(bbox.height),
+    fontSize: designVw(node.fontSize),
+    lineHeight: designVw(node.lineHeightPx),
+    color: fillToCss(node.fills?.[0])
+  }
+  const style: CSSProperties =
+    node.name === 'STUDY TIME'
+      ? {
+          ...base,
+          left: pct(bbox.x + bbox.width / 2),
+          transform: 'translateX(-50%)',
+          whiteSpace: 'nowrap',
+          textAlign: 'center'
+        }
+      : {
+          ...base,
+          left: pct(bbox.x + leftOffset),
+          width: pct(bbox.width),
+          textAlign: node.textAlignHorizontal.toLowerCase() as CSSProperties['textAlign']
+        }
   return (
-    <div
-      key={node.id}
-      className="figma-text"
-      style={{
-        left: pct(bbox.x + leftOffset),
-        top: pct(bbox.y),
-        width: pct(bbox.width),
-        height: pct(bbox.height),
-        fontSize: designVw(node.fontSize),
-        lineHeight: designVw(node.lineHeightPx),
-        color: fillToCss(node.fills?.[0]),
-        textAlign: node.textAlignHorizontal.toLowerCase() as CSSProperties['textAlign']
-      }}
-    >
+    <div key={node.id} className="figma-text" style={style}>
       {text}
     </div>
   )
@@ -72,7 +91,6 @@ function renderFigmaText(node: FigmaTextNode, pomodorosToday: number): React.JSX
 function App(): React.JSX.Element {
   const [active, setActive] = useState<PanelId>('timer')
   const [debug] = useState(false)
-  const [pomodorosToday] = useState(5)
   const [settings, setSettings] = useState<SettingsState>({
     focusMin: 25,
     longBreakMin: 15,
@@ -82,6 +100,27 @@ function App(): React.JSX.Element {
     darkModeOn: false
   })
   const [tasks, setTasks] = useState<Task[]>(() => loadTasks())
+
+  const timer = useTimer(
+    {
+      focusMin: settings.focusMin,
+      shortBreakMin: settings.shortBreakMin,
+      longBreakMin: settings.longBreakMin
+    },
+    { soundOn: settings.soundOn, notificationOn: settings.notificationOn }
+  )
+
+  const dyn: DynamicTextState = {
+    pomodorosToday: timer.pomodorosToday,
+    timerCount: formatTime(timer.secondsLeft),
+    timerStatus: timer.running ? 'PAUSE' : 'START',
+    phaseLabel:
+      timer.phase === 'focus'
+        ? 'STUDY TIME'
+        : timer.phase === 'short'
+          ? 'SHORT BREAK'
+          : 'LONG BREAK'
+  }
 
   useEffect(() => {
     saveTasks(tasks)
@@ -133,6 +172,11 @@ function App(): React.JSX.Element {
               if (panel !== 'timer') return null
               if (!shouldRenderImageNode(node)) return null
               const baseName = stripFigmaSuffix(node.name)
+              // Swap play/pause and the cat with the current run state.
+              if (baseName === 'play' && timer.running) return null
+              if (baseName === 'pause' && !timer.running) return null
+              if (baseName === 'cat-awake' && !timer.running) return null
+              if (baseName === 'cat-sleeping' && timer.running) return null
               const src = `/timer/${baseName}.png`
               const bbox = node.bboxRelative ?? node.bbox
               return (
@@ -183,7 +227,7 @@ function App(): React.JSX.Element {
                 color: 'rgb(137, 55, 96)'
               }}
             >
-              {pomodorosToday}
+              {timer.pomodorosToday}
             </div>
 
             {/* Timer + always-on chrome text — renders below the overlay panels. */}
@@ -191,7 +235,7 @@ function App(): React.JSX.Element {
               if (SKIP_TEXT_NAMES.has(node.name)) return null
               const panel = classifyTextNode(node)
               if (panel !== 'always' && panel !== 'timer') return null
-              return renderFigmaText(node, pomodorosToday)
+              return renderFigmaText(node, dyn)
             })}
 
             {/* Tasks/Stats/Settings panel assets render ABOVE the main chrome. */}
@@ -228,13 +272,14 @@ function App(): React.JSX.Element {
             if (SKIP_TEXT_NAMES.has(node.name)) return null
             const panel = classifyTextNode(node)
             if (panel !== active) return null
-            return renderFigmaText(node, pomodorosToday)
+            return renderFigmaText(node, dyn)
           })}
 
         {/* Per-panel interactive overlays */}
         {!debug && active === 'timer' && <TimerPanel />}
+        {!debug && active === 'timer' && <TimerEmote running={timer.running} />}
         {!debug && active === 'tasks' && <TasksPanel tasks={tasks} setTasks={setTasks} />}
-        {!debug && active === 'stats' && <StatsPanel pomodorosToday={pomodorosToday} />}
+        {!debug && active === 'stats' && <StatsPanel pomodorosToday={timer.pomodorosToday} />}
         {!debug && active === 'settings' && (
           <SettingsPanel settings={settings} setSettings={setSettings} />
         )}
@@ -280,11 +325,45 @@ function App(): React.JSX.Element {
         <button
           className={`hitbox ${debug ? 'debug-outline' : ''}`}
           style={hitboxStyle(RESET_HITBOX, debug)}
-          onClick={() => console.log('reset clicked')}
+          onClick={timer.reset}
           aria-label={RESET_HITBOX.label}
         >
           {debug && <span className="debug-label">{RESET_HITBOX.label}</span>}
         </button>
+
+        {/* Start/pause the timer (only over the timer scene). */}
+        {active === 'timer' && (
+          <button
+            className="hitbox"
+            style={{
+              left: pct(PLAY_HITBOX.left),
+              top: pct(PLAY_HITBOX.top),
+              width: pct(PLAY_HITBOX.width),
+              height: pct(PLAY_HITBOX.height)
+            }}
+            onClick={timer.toggle}
+            aria-label={timer.running ? 'Pause timer' : 'Start timer'}
+          />
+        )}
+
+        {/* Debug: skip straight to the next phase. */}
+        {active === 'timer' && (
+          <button
+            className="timer-skip"
+            onClick={timer.skip}
+            aria-label="Skip to next phase"
+            title="Skip to next phase (debug)"
+            style={{
+              left: pct(372),
+              top: pct(414),
+              width: pct(40),
+              height: pct(19),
+              fontSize: designVw(7)
+            }}
+          >
+            <span>skip</span>
+          </button>
+        )}
       </div>
 
       {/* debug toggle buttons removed */}
