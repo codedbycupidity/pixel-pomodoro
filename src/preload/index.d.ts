@@ -8,6 +8,7 @@ export interface WindowAPI {
 
 export interface API {
   window: WindowAPI
+  notify: (title: string, body: string, silent?: boolean) => Promise<boolean>
 }
 
 declare global {

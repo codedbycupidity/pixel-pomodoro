@@ -93,12 +93,16 @@ export function useTimer(durations: TimerDurations, feedback: TimerFeedback): Ti
       setPhase(next)
       setSecondsLeft(phaseSeconds(next))
       if (opts.alert && feedback.notificationOn) {
-        notify('Focus complete!', next === 'long' ? 'Take a long break.' : 'Take a short break.')
+        notify(
+          'Focus complete!',
+          next === 'long' ? 'Take a long break.' : 'Take a short break.',
+          feedback.soundOn
+        )
       }
     } else {
       setPhase('focus')
       setSecondsLeft(phaseSeconds('focus'))
-      if (opts.alert && feedback.notificationOn) notify('Break over', 'Back to focus.')
+      if (opts.alert && feedback.notificationOn) notify('Break over', 'Back to focus.', feedback.soundOn)
     }
   }
 
@@ -204,7 +208,27 @@ function requestNotifyPermission(): void {
   }
 }
 
-function notify(title: string, body: string): void {
+// Prefer Electron's native OS notification (reliable on Windows/macOS/Linux);
+// fall back to the renderer's HTML5 Notification API if the bridge is absent
+// (e.g. running the renderer in a plain browser) or the platform can't show one.
+function notify(title: string, body: string, silent = false): void {
+  try {
+    const native = window.api?.notify
+    if (native) {
+      void native(title, body, silent)
+        .then((shown) => {
+          if (!shown) htmlNotify(title, body)
+        })
+        .catch(() => htmlNotify(title, body))
+      return
+    }
+  } catch {
+    // fall through to HTML5
+  }
+  htmlNotify(title, body)
+}
+
+function htmlNotify(title: string, body: string): void {
   try {
     if ('Notification' in window && Notification.permission === 'granted') {
       new Notification(title, { body })

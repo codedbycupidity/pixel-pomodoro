@@ -1,4 +1,4 @@
-appId: com.codedbycupidity.pixel-pomodoro
+appId: com.pixelpomodoro.app
 productName: Pixel Pomodoro
 directories:
   buildResources: build

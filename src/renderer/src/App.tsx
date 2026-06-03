@@ -364,6 +364,27 @@ function App(): React.JSX.Element {
             <span>skip</span>
           </button>
         )}
+
+        {/* Debug: fire a test OS notification (verifies macOS/Windows/Linux toasts). */}
+        {active === 'timer' && (
+          <button
+            className="timer-skip"
+            onClick={() => {
+              void window.api?.notify('Pixel Pomodoro', 'Time is up! 🍅', false)
+            }}
+            aria-label="Test notification"
+            title="Test OS notification (debug)"
+            style={{
+              left: pct(300),
+              top: pct(414),
+              width: pct(64),
+              height: pct(19),
+              fontSize: designVw(7)
+            }}
+          >
+            <span>notif</span>
+          </button>
+        )}
       </div>
 
       {/* debug toggle buttons removed */}

@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, Notification } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -46,6 +46,29 @@ function createWindow(): void {
   })
   ipcMain.on('window:close', () => mainWindow.close())
 
+  // Native OS notification (Windows/macOS/Linux). Returns false if the platform
+  // can't show one, so the renderer can fall back to the HTML5 Notification API.
+  ipcMain.handle(
+    'notify',
+    (_e, payload: { title: string; body: string; silent?: boolean }): boolean => {
+      if (!Notification.isSupported()) return false
+      const n = new Notification({
+        title: payload.title,
+        body: payload.body,
+        silent: payload.silent ?? false
+      })
+      // Clicking the toast brings the timer back to the foreground.
+      n.on('click', () => {
+        if (mainWindow.isDestroyed()) return
+        if (mainWindow.isMinimized()) mainWindow.restore()
+        mainWindow.show()
+        mainWindow.focus()
+      })
+      n.show()
+      return true
+    }
+  )
+
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
@@ -54,7 +77,7 @@ function createWindow(): void {
 }
 
 app.whenReady().then(() => {
-  electronApp.setAppUserModelId('com.codedbycupidity.pixel-pomodoro')
+  electronApp.setAppUserModelId('com.pixelpomodoro.app')
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)

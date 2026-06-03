@@ -6,7 +6,10 @@ const api = {
     minimize: (): void => ipcRenderer.send('window:minimize'),
     toggleMaximize: (): void => ipcRenderer.send('window:toggle-maximize'),
     close: (): void => ipcRenderer.send('window:close')
-  }
+  },
+  // Show a native OS notification; resolves false if the platform can't.
+  notify: (title: string, body: string, silent?: boolean): Promise<boolean> =>
+    ipcRenderer.invoke('notify', { title, body, silent })
 }
 
 if (process.contextIsolated) {
