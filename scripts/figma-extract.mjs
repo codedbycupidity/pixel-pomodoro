@@ -87,7 +87,11 @@ function collectImageNodes(node, ancestors = []) {
   const out = []
   const inPanelGroup = ancestors.some((a) => PANEL_GROUPS.has(a))
   const isLeaf = !node.children || node.children.length === 0
-  if (inPanelGroup && isLeaf && node.type !== 'TEXT' && node.absoluteBoundingBox) {
+  // Only RECTANGLE leaves are real exported PNG assets (each PNG is placed as a
+  // rectangle with an image fill). Figma's own helper shapes — container FRAMEs,
+  // VECTORs (the modifier pill/arrow drawings), ELLIPSEs (toggle circles) — are
+  // not assets and would otherwise pollute the json as stale nodes.
+  if (inPanelGroup && isLeaf && node.type === 'RECTANGLE' && node.absoluteBoundingBox) {
     out.push({
       id: node.id,
       name: node.name,
@@ -102,6 +106,15 @@ function collectImageNodes(node, ancestors = []) {
     }
   }
   return out
+}
+
+// Drop duplicate placements of the same asset within the same panel (e.g. an old
+// "strawberry-stat-display" left next to a redesigned one) — keep the last, which
+// is the topmost in Figma's z-order and thus the current version.
+function dedupeImageNodes(nodes) {
+  const byKey = new Map()
+  for (const n of nodes) byKey.set(`${n.name}|${n.parents.join('>')}`, n)
+  return [...byKey.values()]
 }
 
 function relativize(textNodes, frame) {
@@ -143,7 +156,7 @@ async function main() {
 
   let originFrame = null
   let textNodes = collectTextNodes(data.document)
-  let imageNodes = collectImageNodes(data.document)
+  let imageNodes = dedupeImageNodes(collectImageNodes(data.document))
 
   if (FIGMA_FRAME_NAME) {
     originFrame = findNodeByName(data.document, FIGMA_FRAME_NAME)

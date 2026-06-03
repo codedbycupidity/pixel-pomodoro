@@ -1725,29 +1725,6 @@
       }
     },
     {
-      "id": "38:25",
-      "name": "Frame 4",
-      "type": "FRAME",
-      "bbox": {
-        "x": 155,
-        "y": 311,
-        "width": 100,
-        "height": 100
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "tasks",
-        "task 2"
-      ],
-      "bboxRelative": {
-        "x": 155,
-        "y": 311,
-        "width": 100,
-        "height": 100
-      }
-    },
-    {
       "id": "6:41",
       "name": "stats-frame ",
       "type": "RECTANGLE",
@@ -1908,14 +1885,14 @@
       }
     },
     {
-      "id": "6:29",
+      "id": "64:3",
       "name": "strawberry-stat-display",
       "type": "RECTANGLE",
       "bbox": {
-        "x": 194,
-        "y": 170,
-        "width": 52,
-        "height": 52
+        "x": 188,
+        "y": 167,
+        "width": 60,
+        "height": 60
       },
       "parents": [
         "Document",
@@ -1923,10 +1900,10 @@
         "stats"
       ],
       "bboxRelative": {
-        "x": 194,
-        "y": 170,
-        "width": 52,
-        "height": 52
+        "x": 188,
+        "y": 167,
+        "width": 60,
+        "height": 60
       }
     },
     {
@@ -1949,28 +1926,6 @@
         "y": 0,
         "width": 512,
         "height": 512
-      }
-    },
-    {
-      "id": "64:3",
-      "name": "strawberry-stat-display",
-      "type": "RECTANGLE",
-      "bbox": {
-        "x": 188,
-        "y": 167,
-        "width": 60,
-        "height": 60
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "stats"
-      ],
-      "bboxRelative": {
-        "x": 188,
-        "y": 167,
-        "width": 60,
-        "height": 60
       }
     },
     {
@@ -2081,282 +2036,6 @@
         "y": 0,
         "width": 512,
         "height": 512
-      }
-    },
-    {
-      "id": "17:30",
-      "name": "Vector",
-      "type": "VECTOR",
-      "bbox": {
-        "x": 280.5,
-        "y": 183.5,
-        "width": 94,
-        "height": 17
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "settings-modifier 1"
-      ],
-      "bboxRelative": {
-        "x": 280.5,
-        "y": 183.5,
-        "width": 94,
-        "height": 17
-      }
-    },
-    {
-      "id": "17:31",
-      "name": "Vector",
-      "type": "VECTOR",
-      "bbox": {
-        "x": 287,
-        "y": 189,
-        "width": 4,
-        "height": 6
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "settings-modifier 1"
-      ],
-      "bboxRelative": {
-        "x": 287,
-        "y": 189,
-        "width": 4,
-        "height": 6
-      }
-    },
-    {
-      "id": "17:33",
-      "name": "Vector",
-      "type": "VECTOR",
-      "bbox": {
-        "x": 364,
-        "y": 189,
-        "width": 4,
-        "height": 6
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "settings-modifier 1"
-      ],
-      "bboxRelative": {
-        "x": 364,
-        "y": 189,
-        "width": 4,
-        "height": 6
-      }
-    },
-    {
-      "id": "17:45",
-      "name": "Vector",
-      "type": "VECTOR",
-      "bbox": {
-        "x": 280.5,
-        "y": 207.5,
-        "width": 94,
-        "height": 17
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "settings-modifier 2"
-      ],
-      "bboxRelative": {
-        "x": 280.5,
-        "y": 207.5,
-        "width": 94,
-        "height": 17
-      }
-    },
-    {
-      "id": "17:46",
-      "name": "Vector",
-      "type": "VECTOR",
-      "bbox": {
-        "x": 287,
-        "y": 213,
-        "width": 4,
-        "height": 6
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "settings-modifier 2"
-      ],
-      "bboxRelative": {
-        "x": 287,
-        "y": 213,
-        "width": 4,
-        "height": 6
-      }
-    },
-    {
-      "id": "17:48",
-      "name": "Vector",
-      "type": "VECTOR",
-      "bbox": {
-        "x": 364,
-        "y": 213,
-        "width": 4,
-        "height": 6
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "settings-modifier 2"
-      ],
-      "bboxRelative": {
-        "x": 364,
-        "y": 213,
-        "width": 4,
-        "height": 6
-      }
-    },
-    {
-      "id": "17:51",
-      "name": "Vector",
-      "type": "VECTOR",
-      "bbox": {
-        "x": 280.5,
-        "y": 231.5,
-        "width": 94,
-        "height": 17
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "settings-modifier 3"
-      ],
-      "bboxRelative": {
-        "x": 280.5,
-        "y": 231.5,
-        "width": 94,
-        "height": 17
-      }
-    },
-    {
-      "id": "17:52",
-      "name": "Vector",
-      "type": "VECTOR",
-      "bbox": {
-        "x": 287,
-        "y": 237,
-        "width": 4,
-        "height": 6
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "settings-modifier 3"
-      ],
-      "bboxRelative": {
-        "x": 287,
-        "y": 237,
-        "width": 4,
-        "height": 6
-      }
-    },
-    {
-      "id": "17:54",
-      "name": "Vector",
-      "type": "VECTOR",
-      "bbox": {
-        "x": 364,
-        "y": 237,
-        "width": 4,
-        "height": 6
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "settings-modifier 3"
-      ],
-      "bboxRelative": {
-        "x": 364,
-        "y": 237,
-        "width": 4,
-        "height": 6
-      }
-    },
-    {
-      "id": "18:76",
-      "name": "Ellipse 1",
-      "type": "ELLIPSE",
-      "bbox": {
-        "x": 329.82625615783036,
-        "y": 267.3271484375,
-        "width": 9.147460458800197,
-        "height": 9.147460458800197
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "Frame 1"
-      ],
-      "bboxRelative": {
-        "x": 329.82625615783036,
-        "y": 267.3271484375,
-        "width": 9.147460458800197,
-        "height": 9.147460458800197
-      }
-    },
-    {
-      "id": "18:82",
-      "name": "Ellipse 1",
-      "type": "ELLIPSE",
-      "bbox": {
-        "x": 342,
-        "y": 311.5,
-        "width": 9,
-        "height": 9
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "Frame 3"
-      ],
-      "bboxRelative": {
-        "x": 342,
-        "y": 311.5,
-        "width": 9,
-        "height": 9
-      }
-    },
-    {
-      "id": "18:79",
-      "name": "Ellipse 1",
-      "type": "ELLIPSE",
-      "bbox": {
-        "x": 330,
-        "y": 289.5,
-        "width": 9,
-        "height": 9
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "settings",
-        "Frame 2"
-      ],
-      "bboxRelative": {
-        "x": 330,
-        "y": 289.5,
-        "width": 9,
-        "height": 9
       }
     }
   ]
