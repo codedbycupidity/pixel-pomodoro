@@ -34,6 +34,7 @@ import { StatsPanel } from './panels/StatsPanel'
 import { TasksPanel } from './panels/TasksPanel'
 import { TimerPanel } from './panels/TimerPanel'
 import { TimerEmote } from './components/timer/TimerEmote'
+import { TimerAudio } from './components/timer/TimerAudio'
 
 // Play/pause button hitbox (matches the play/pause art at design 232,312).
 const PLAY_HITBOX = { left: 235, top: 325, width: 82, height: 28 }
@@ -288,6 +289,12 @@ function App(): React.JSX.Element {
             if (panel !== active) return null
             return renderFigmaText(node, dyn, dark)
           })}
+
+        {/* Background music — runs regardless of the active panel so it keeps
+            playing while you browse tasks/stats/settings. */}
+        {!debug && (
+          <TimerAudio phase={timer.phase} running={timer.running} soundOn={settings.soundOn} />
+        )}
 
         {/* Per-panel interactive overlays */}
         {!debug && active === 'timer' && <TimerPanel />}
