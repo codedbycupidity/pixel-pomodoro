@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
+import { asset } from '../../lib/assets'
 
 // Frame sequences (full-frame 512x512 exports, art baked at the cat's head).
 const FRAME_MS = 450
 const heartFrames = [1, 2, 3].map((n) =>
-  encodeURI(`/animations/heart-animation/heart-animation - ${n}.png`)
+  asset(encodeURI(`animations/heart-animation/heart-animation - ${n}.png`))
 )
 const sleepFrames = [1, 2, 3].map((n) =>
-  encodeURI(`/animations/sleeping-animation/sleeping-animation - ${n}.png`)
+  asset(encodeURI(`animations/sleeping-animation/sleeping-animation - ${n}.png`))
 )
 
 // Cat mood: hearts rising while focusing (running), sleepy "z"s while idle/paused.

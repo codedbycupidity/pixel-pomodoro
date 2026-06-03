@@ -1,3 +1,4 @@
+import { asset } from '../lib/assets'
 import {
   CANVAS,
   designVw,
@@ -20,8 +21,8 @@ export function StatsPanel({ pomodorosToday }: StatsPanelProps): React.JSX.Eleme
       {STRAWBERRY_SLOTS.map((slot, i) => {
         const filled = i < Math.min(pomodorosToday, STRAWBERRY_SLOTS.length)
         const src = filled
-          ? '/stats/completed-strawberry.png'
-          : '/stats/empty-strawberry.png'
+          ? asset('stats/completed-strawberry.png')
+          : asset('stats/empty-strawberry.png')
         return (
           <img
             key={`berry-${i}`}

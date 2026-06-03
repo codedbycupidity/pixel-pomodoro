@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import figmaData from './figma-text.json'
+import { asset } from './lib/assets'
 import {
   designVw,
   DRAG_REGION,
@@ -175,7 +176,7 @@ function App(): React.JSX.Element {
               if (baseName === 'pause' && !timer.running) return null
               if (baseName === 'cat-awake' && !timer.running) return null
               if (baseName === 'cat-sleeping' && timer.running) return null
-              const src = `/timer/${baseName}.png`
+              const src = asset(`timer/${baseName}.png`)
               const bbox = node.bboxRelative ?? node.bbox
               return (
                 <img
@@ -193,25 +194,30 @@ function App(): React.JSX.Element {
               )
             })}
 
-            <img className="canvas-layer" src="/main/frame.png" alt="" />
+            <img className="canvas-layer" src={asset('main/frame.png')} alt="" />
 
-            <img className="canvas-layer" src={`/main/${active}-selected.png`} alt="" />
+            <img className="canvas-layer" src={asset(`main/${active}-selected.png`)} alt="" />
 
             {SIDE_PANEL.map((b) => (
-              <img key={`icon-${b.id}`} className="canvas-layer" src={`/main/${b.id}.png`} alt="" />
+              <img
+                key={`icon-${b.id}`}
+                className="canvas-layer"
+                src={asset(`main/${b.id}.png`)}
+                alt=""
+              />
             ))}
 
             {WINDOW_CONTROLS.map((b) => (
               <img
                 key={`icon-${b.id}`}
                 className="canvas-layer"
-                src={`/main/${b.asset}.png`}
+                src={asset(`main/${b.asset}.png`)}
                 alt=""
               />
             ))}
 
-            <img className="canvas-layer" src="/main/today-count.png" alt="" />
-            <img className="canvas-layer" src="/main/reset.png" alt="" />
+            <img className="canvas-layer" src={asset('main/today-count.png')} alt="" />
+            <img className="canvas-layer" src={asset('main/reset.png')} alt="" />
 
             <div
               className="figma-text"
@@ -243,7 +249,7 @@ function App(): React.JSX.Element {
                 if (!panel || panel !== active) return null
                 if (!shouldRenderImageNode(node)) return null
                 const baseName = stripFigmaSuffix(node.name)
-                const src = `/${panel}/${baseName}.png`
+                const src = asset(`${panel}/${baseName}.png`)
                 const bbox = node.bboxRelative ?? node.bbox
                 return (
                   <img
