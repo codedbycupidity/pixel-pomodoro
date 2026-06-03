@@ -70,7 +70,7 @@ function renderFigmaText(
     height: pct(bbox.height),
     fontSize: designVw(node.fontSize),
     lineHeight: designVw(node.lineHeightPx),
-    color: dark ? '#FFFFFD' : fillToCss(node.fills?.[0])
+    color: dark ? '#e6dcfa' : fillToCss(node.fills?.[0])
   }
   const style: CSSProperties =
     node.name === 'STUDY TIME'
@@ -238,7 +238,7 @@ function App(): React.JSX.Element {
                 height: pct(17),
                 fontSize: designVw(8),
                 lineHeight: designVw(17),
-                color: dark ? '#FFFFFD' : 'rgb(137, 55, 96)'
+                color: dark ? '#e6dcfa' : 'rgb(137, 55, 96)'
               }}
             >
               {timer.pomodorosToday}
@@ -380,27 +380,6 @@ function App(): React.JSX.Element {
             height: pct(20)
           }}
         />
-
-        {/* Debug: fire a test OS notification (verifies macOS/Windows/Linux toasts). */}
-        {active === 'timer' && (
-          <button
-            className="timer-skip"
-            onClick={() => {
-              void window.api?.notify('Pixel Pomodoro', 'Time is up! 🍅', false)
-            }}
-            aria-label="Test notification"
-            title="Test OS notification (debug)"
-            style={{
-              left: pct(300),
-              top: pct(414),
-              width: pct(64),
-              height: pct(19),
-              fontSize: designVw(7)
-            }}
-          >
-            <span>notif</span>
-          </button>
-        )}
       </div>
 
       {/* debug toggle buttons removed */}

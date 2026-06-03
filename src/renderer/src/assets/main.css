@@ -441,26 +441,26 @@
 .dark .settings-modifier-value,
 .dark .settings-modifier-arrow,
 .dark .timer-skip {
-  color: #fffffd;
+  color: #e6dcfa;
 }
 .dark .task-edit-input {
-  caret-color: #fffffd;
+  caret-color: #e6dcfa;
 }
 .dark .task-add-input::placeholder {
-  color: rgba(255, 255, 253, 0.5);
+  color: rgba(230, 220, 250, 0.5);
 }
 .dark .task-text.is-done {
-  color: rgba(255, 255, 253, 0.45);
+  color: rgba(230, 220, 250, 0.45);
 }
 
 /* Settings controls — dark surface, near-white text, pink accent kept for "on". */
 .dark .settings-modifier-pill {
-  background: #322a47;
-  border-color: #6f6196;
-  color: #fffffd;
+  background: #5e5388;
+  border-color: #8678b0;
+  color: #e6dcfa;
 }
 .dark .settings-modifier-arrow {
-  color: #fffffd;
+  color: #e6dcfa;
 }
 .dark .settings-toggle-track.is-off {
   background: #3a3252;
