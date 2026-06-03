@@ -4,6 +4,7 @@ import type { Task } from '../../lib/tasks'
 
 interface TaskRowProps {
   task: Task
+  dark: boolean
   isSelected: boolean
   isDragOver: boolean
   onSelect: () => void
@@ -35,6 +36,7 @@ const TXT_W = ((ROW.x + ROW.w - 6 - TXT_X) / ROW.w) * 100
 
 export function TaskRow({
   task,
+  dark,
   isSelected,
   isDragOver,
   onSelect,
@@ -73,7 +75,7 @@ export function TaskRow({
         // Row height = pitch, derived from the row sprite aspect (cqw = 1% of the
         // viewport width; the canvas is square so this gives ROW.h design units).
         height: `calc(100cqw * ${ROW.h} / ${ROW.w})`,
-        ...spriteCropStyle(ROW)
+        ...spriteCropStyle(ROW, dark)
       }}
     >
       <button
@@ -89,7 +91,7 @@ export function TaskRow({
           top: `${CB_TOP}%`,
           width: `${CB_W}%`,
           height: `${CB_H}%`,
-          ...spriteCropStyle(task.done ? TASK_SPRITES.checkboxDone : TASK_SPRITES.checkbox)
+          ...spriteCropStyle(task.done ? TASK_SPRITES.checkboxDone : TASK_SPRITES.checkbox, dark)
         }}
       />
 

@@ -62,6 +62,9 @@ export const SKIP_TEXT_NAMES = new Set([
 
 // Image-node skip patterns (dynamic content handled separately).
 export const SKIP_IMAGE_PATTERNS: RegExp[] = [
+  // Figma's default-named container frames (e.g. "Frame 4") are structural, not
+  // exported assets — skip them so they don't render as a missing "Frame.png".
+  /^Frame\b/,
   /^completed-strawberry/,
   /^empty-strawberry/,
   // Tasks panel renders these sprites itself (rows, checkboxes, add field, filters,

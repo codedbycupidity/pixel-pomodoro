@@ -2,7 +2,7 @@
   "file": {
     "key": "CQXwq1E7TstpKfkDCnNtbX",
     "name": "pomodoro",
-    "lastModified": "2026-05-29T23:51:31Z"
+    "lastModified": "2026-06-03T06:03:50Z"
   },
   "originFrame": {
     "id": "1:7",
@@ -412,6 +412,126 @@
       }
     },
     {
+      "id": "37:13",
+      "name": "all",
+      "text": "all",
+      "fontSize": 8,
+      "fontFamily": "Five Fonts at Freddy's",
+      "fontWeight": 500,
+      "letterSpacing": 0,
+      "lineHeightPx": 17,
+      "textAlignHorizontal": "CENTER",
+      "textAlignVertical": "TOP",
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0.42352941632270813,
+            "g": 0.1725490242242813,
+            "b": 0.2666666805744171,
+            "a": 1
+          }
+        }
+      ],
+      "bbox": {
+        "x": 205,
+        "y": 355,
+        "width": 12,
+        "height": 17
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "tasks"
+      ],
+      "bboxRelative": {
+        "x": 205,
+        "y": 355,
+        "width": 12,
+        "height": 17
+      }
+    },
+    {
+      "id": "37:14",
+      "name": "done",
+      "text": "done",
+      "fontSize": 8,
+      "fontFamily": "Five Fonts at Freddy's",
+      "fontWeight": 500,
+      "letterSpacing": 0,
+      "lineHeightPx": 17,
+      "textAlignHorizontal": "CENTER",
+      "textAlignVertical": "TOP",
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0.42352941632270813,
+            "g": 0.1725490242242813,
+            "b": 0.2666666805744171,
+            "a": 1
+          }
+        }
+      ],
+      "bbox": {
+        "x": 288,
+        "y": 355,
+        "width": 24,
+        "height": 17
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "tasks"
+      ],
+      "bboxRelative": {
+        "x": 288,
+        "y": 355,
+        "width": 24,
+        "height": 17
+      }
+    },
+    {
+      "id": "37:16",
+      "name": "active",
+      "text": "active",
+      "fontSize": 8,
+      "fontFamily": "Five Fonts at Freddy's",
+      "fontWeight": 500,
+      "letterSpacing": 0,
+      "lineHeightPx": 17,
+      "textAlignHorizontal": "CENTER",
+      "textAlignVertical": "TOP",
+      "fills": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 0.42352941632270813,
+            "g": 0.1725490242242813,
+            "b": 0.2666666805744171,
+            "a": 1
+          }
+        }
+      ],
+      "bbox": {
+        "x": 240,
+        "y": 355,
+        "width": 30,
+        "height": 17
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "tasks"
+      ],
+      "bboxRelative": {
+        "x": 240,
+        "y": 355,
+        "width": 30,
+        "height": 17
+      }
+    },
+    {
       "id": "37:12",
       "name": "task description",
       "text": "task description",
@@ -490,126 +610,6 @@
         "x": 216,
         "y": 252,
         "width": 79,
-        "height": 17
-      }
-    },
-    {
-      "id": "37:13",
-      "name": "all",
-      "text": "all",
-      "fontSize": 8,
-      "fontFamily": "Five Fonts at Freddy's",
-      "fontWeight": 500,
-      "letterSpacing": 0,
-      "lineHeightPx": 17,
-      "textAlignHorizontal": "CENTER",
-      "textAlignVertical": "TOP",
-      "fills": [
-        {
-          "type": "SOLID",
-          "color": {
-            "r": 0.42352941632270813,
-            "g": 0.1725490242242813,
-            "b": 0.2666666805744171,
-            "a": 1
-          }
-        }
-      ],
-      "bbox": {
-        "x": 204,
-        "y": 352,
-        "width": 12,
-        "height": 17
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "tasks"
-      ],
-      "bboxRelative": {
-        "x": 204,
-        "y": 352,
-        "width": 12,
-        "height": 17
-      }
-    },
-    {
-      "id": "37:14",
-      "name": "done",
-      "text": "done",
-      "fontSize": 8,
-      "fontFamily": "Five Fonts at Freddy's",
-      "fontWeight": 500,
-      "letterSpacing": 0,
-      "lineHeightPx": 17,
-      "textAlignHorizontal": "CENTER",
-      "textAlignVertical": "TOP",
-      "fills": [
-        {
-          "type": "SOLID",
-          "color": {
-            "r": 0.42352941632270813,
-            "g": 0.1725490242242813,
-            "b": 0.2666666805744171,
-            "a": 1
-          }
-        }
-      ],
-      "bbox": {
-        "x": 289,
-        "y": 352,
-        "width": 24,
-        "height": 17
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "tasks"
-      ],
-      "bboxRelative": {
-        "x": 289,
-        "y": 352,
-        "width": 24,
-        "height": 17
-      }
-    },
-    {
-      "id": "37:16",
-      "name": "active",
-      "text": "active",
-      "fontSize": 8,
-      "fontFamily": "Five Fonts at Freddy's",
-      "fontWeight": 500,
-      "letterSpacing": 0,
-      "lineHeightPx": 17,
-      "textAlignHorizontal": "CENTER",
-      "textAlignVertical": "TOP",
-      "fills": [
-        {
-          "type": "SOLID",
-          "color": {
-            "r": 0.42352941632270813,
-            "g": 0.1725490242242813,
-            "b": 0.2666666805744171,
-            "a": 1
-          }
-        }
-      ],
-      "bbox": {
-        "x": 239,
-        "y": 352,
-        "width": 30,
-        "height": 17
-      },
-      "parents": [
-        "Document",
-        "Page 1",
-        "tasks"
-      ],
-      "bboxRelative": {
-        "x": 239,
-        "y": 352,
-        "width": 30,
         "height": 17
       }
     },
@@ -1527,8 +1527,8 @@
       "name": "all 1",
       "type": "RECTANGLE",
       "bbox": {
-        "x": 0,
-        "y": 0,
+        "x": -1,
+        "y": 3,
         "width": 512,
         "height": 512
       },
@@ -1538,8 +1538,8 @@
         "tasks"
       ],
       "bboxRelative": {
-        "x": 0,
-        "y": 0,
+        "x": -1,
+        "y": 3,
         "width": 512,
         "height": 512
       }
@@ -1549,8 +1549,8 @@
       "name": "active 1",
       "type": "RECTANGLE",
       "bbox": {
-        "x": 0,
-        "y": 0,
+        "x": -1,
+        "y": 3,
         "width": 512,
         "height": 512
       },
@@ -1560,8 +1560,8 @@
         "tasks"
       ],
       "bboxRelative": {
-        "x": 0,
-        "y": 0,
+        "x": -1,
+        "y": 3,
         "width": 512,
         "height": 512
       }
@@ -1571,8 +1571,8 @@
       "name": "done 1",
       "type": "RECTANGLE",
       "bbox": {
-        "x": 0,
-        "y": 0,
+        "x": -1,
+        "y": 3,
         "width": 512,
         "height": 512
       },
@@ -1582,8 +1582,8 @@
         "tasks"
       ],
       "bboxRelative": {
-        "x": 0,
-        "y": 0,
+        "x": -1,
+        "y": 3,
         "width": 512,
         "height": 512
       }
@@ -1593,8 +1593,8 @@
       "name": "add 1",
       "type": "RECTANGLE",
       "bbox": {
-        "x": 0,
-        "y": 0,
+        "x": -1,
+        "y": 3,
         "width": 512,
         "height": 512
       },
@@ -1604,8 +1604,8 @@
         "tasks"
       ],
       "bboxRelative": {
-        "x": 0,
-        "y": 0,
+        "x": -1,
+        "y": 3,
         "width": 512,
         "height": 512
       }
@@ -1722,6 +1722,29 @@
         "y": 37,
         "width": 512,
         "height": 512
+      }
+    },
+    {
+      "id": "38:25",
+      "name": "Frame 4",
+      "type": "FRAME",
+      "bbox": {
+        "x": 155,
+        "y": 311,
+        "width": 100,
+        "height": 100
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "tasks",
+        "task 2"
+      ],
+      "bboxRelative": {
+        "x": 155,
+        "y": 311,
+        "width": 100,
+        "height": 100
       }
     },
     {
@@ -1926,6 +1949,28 @@
         "y": 0,
         "width": 512,
         "height": 512
+      }
+    },
+    {
+      "id": "64:3",
+      "name": "strawberry-stat-display",
+      "type": "RECTANGLE",
+      "bbox": {
+        "x": 188,
+        "y": 167,
+        "width": 60,
+        "height": 60
+      },
+      "parents": [
+        "Document",
+        "Page 1",
+        "stats"
+      ],
+      "bboxRelative": {
+        "x": 188,
+        "y": 167,
+        "width": 60,
+        "height": 60
       }
     },
     {

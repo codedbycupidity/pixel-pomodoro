@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { designVw, pct, TASK_SPRITES } from '../../lib/canvas'
+import { themed } from '../../lib/assets'
 
 interface AddTaskInputProps {
   onAdd: (text: string) => void
+  dark: boolean
 }
 
 const FIELD = TASK_SPRITES.addField
 const BTN = TASK_SPRITES.addButton
 
-export function AddTaskInput({ onAdd }: AddTaskInputProps): React.JSX.Element {
+export function AddTaskInput({ onAdd, dark }: AddTaskInputProps): React.JSX.Element {
   const [text, setText] = useState('')
 
   function submit(): void {
@@ -21,8 +23,8 @@ export function AddTaskInput({ onAdd }: AddTaskInputProps): React.JSX.Element {
   return (
     <>
       {/* Full-frame field + "+" button PNGs at their baked positions. */}
-      <img className="canvas-layer" src={FIELD.src} alt="" />
-      <img className="canvas-layer" src={BTN.src} alt="" />
+      <img className="canvas-layer" src={themed(FIELD.key, dark)} alt="" />
+      <img className="canvas-layer" src={themed(BTN.key, dark)} alt="" />
 
       {/* Text input overlaid on the field pill. */}
       <input

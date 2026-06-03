@@ -8,9 +8,10 @@ import { applyTaskFilter, newTask, type Task, type TaskFilter } from '../lib/tas
 interface TasksPanelProps {
   tasks: Task[]
   setTasks: (updater: (prev: Task[]) => Task[]) => void
+  dark: boolean
 }
 
-export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Element {
+export function TasksPanel({ tasks, setTasks, dark }: TasksPanelProps): React.JSX.Element {
   const [filter, setFilter] = useState<TaskFilter>('all')
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [dragIndex, setDragIndex] = useState<number | null>(null)
@@ -58,7 +59,7 @@ export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Elem
 
   return (
     <>
-      <AddTaskInput onAdd={addTask} />
+      <AddTaskInput onAdd={addTask} dark={dark} />
 
       {/* Scrollable list — rows stack at the Figma row pitch; overflow scrolls. */}
       <div
@@ -75,6 +76,7 @@ export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Elem
             <TaskRow
               key={task.id}
               task={task}
+              dark={dark}
               isSelected={selectedId === task.id}
               isDragOver={dragOverIndex === i && dragIndex !== i}
               onSelect={() => setSelectedId(task.id === selectedId ? null : task.id)}
@@ -94,6 +96,7 @@ export function TasksPanel({ tasks, setTasks }: TasksPanelProps): React.JSX.Elem
 
       <TaskFilters
         filter={filter}
+        dark={dark}
         setFilter={setFilter}
         onClearDone={clearDone}
         hasDone={hasDone}

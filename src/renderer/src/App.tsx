@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import figmaData from './figma-text.json'
-import { asset } from './lib/assets'
+import { themed } from './lib/assets'
 import {
   designVw,
   DRAG_REGION,
@@ -95,6 +95,7 @@ function App(): React.JSX.Element {
   const [debug] = useState(false)
   const [settings, setSettings] = useState<SettingsState>(() => loadSettings())
   const [tasks, setTasks] = useState<Task[]>(() => loadTasks())
+  const dark = settings.darkModeOn
 
   const timer = useTimer(
     {
@@ -176,7 +177,7 @@ function App(): React.JSX.Element {
               if (baseName === 'pause' && !timer.running) return null
               if (baseName === 'cat-awake' && !timer.running) return null
               if (baseName === 'cat-sleeping' && timer.running) return null
-              const src = asset(`timer/${baseName}.png`)
+              const src = themed(`timer/${baseName}.png`, dark)
               const bbox = node.bboxRelative ?? node.bbox
               return (
                 <img
@@ -194,15 +195,19 @@ function App(): React.JSX.Element {
               )
             })}
 
-            <img className="canvas-layer" src={asset('main/frame.png')} alt="" />
+            <img className="canvas-layer" src={themed('main/frame.png', dark)} alt="" />
 
-            <img className="canvas-layer" src={asset(`main/${active}-selected.png`)} alt="" />
+            <img
+              className="canvas-layer"
+              src={themed(`main/${active}-selected.png`, dark)}
+              alt=""
+            />
 
             {SIDE_PANEL.map((b) => (
               <img
                 key={`icon-${b.id}`}
                 className="canvas-layer"
-                src={asset(`main/${b.id}.png`)}
+                src={themed(`main/${b.id}.png`, dark)}
                 alt=""
               />
             ))}
@@ -211,14 +216,14 @@ function App(): React.JSX.Element {
               <img
                 key={`icon-${b.id}`}
                 className="canvas-layer"
-                src={asset(`main/${b.asset}.png`)}
+                src={themed(`main/${b.asset}.png`, dark)}
                 alt=""
               />
             ))}
 
-            <img className="canvas-layer" src={asset('main/today-count.png')} alt="" />
-            <img className="canvas-layer" src={asset('main/reset.png')} alt="" />
-            <img className="canvas-layer" src={asset('main/skip.png')} alt="" />
+            <img className="canvas-layer" src={themed('main/today-count.png', dark)} alt="" />
+            <img className="canvas-layer" src={themed('main/reset.png', dark)} alt="" />
+            <img className="canvas-layer" src={themed('main/skip.png', dark)} alt="" />
 
             <div
               className="figma-text"
@@ -250,7 +255,7 @@ function App(): React.JSX.Element {
                 if (!panel || panel !== active) return null
                 if (!shouldRenderImageNode(node)) return null
                 const baseName = stripFigmaSuffix(node.name)
-                const src = asset(`${panel}/${baseName}.png`)
+                const src = themed(`${panel}/${baseName}.png`, dark)
                 const bbox = node.bboxRelative ?? node.bbox
                 return (
                   <img
@@ -282,9 +287,13 @@ function App(): React.JSX.Element {
 
         {/* Per-panel interactive overlays */}
         {!debug && active === 'timer' && <TimerPanel />}
-        {!debug && active === 'timer' && <TimerEmote running={timer.running} />}
-        {!debug && active === 'tasks' && <TasksPanel tasks={tasks} setTasks={setTasks} />}
-        {!debug && active === 'stats' && <StatsPanel pomodorosToday={timer.pomodorosToday} />}
+        {!debug && active === 'timer' && <TimerEmote running={timer.running} dark={dark} />}
+        {!debug && active === 'tasks' && (
+          <TasksPanel tasks={tasks} setTasks={setTasks} dark={dark} />
+        )}
+        {!debug && active === 'stats' && (
+          <StatsPanel pomodorosToday={timer.pomodorosToday} dark={dark} />
+        )}
         {!debug && active === 'settings' && (
           <SettingsPanel settings={settings} setSettings={setSettings} />
         )}

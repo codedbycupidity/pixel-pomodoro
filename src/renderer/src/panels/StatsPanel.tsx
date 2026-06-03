@@ -1,4 +1,4 @@
-import { asset } from '../lib/assets'
+import { themed } from '../lib/assets'
 import {
   CANVAS,
   designVw,
@@ -9,20 +9,21 @@ import {
 
 interface StatsPanelProps {
   pomodorosToday: number
+  dark: boolean
 }
 
 // Renders the dynamic strawberry counter:
 // - N filled + (6-N) empty strawberries
 // - "+M" overflow label when count exceeds 6
-export function StatsPanel({ pomodorosToday }: StatsPanelProps): React.JSX.Element {
+export function StatsPanel({ pomodorosToday, dark }: StatsPanelProps): React.JSX.Element {
   const overflow = pomodorosToday > STRAWBERRY_SLOTS.length
   return (
     <>
       {STRAWBERRY_SLOTS.map((slot, i) => {
         const filled = i < Math.min(pomodorosToday, STRAWBERRY_SLOTS.length)
         const src = filled
-          ? asset('stats/completed-strawberry.png')
-          : asset('stats/empty-strawberry.png')
+          ? themed('stats/completed-strawberry.png', dark)
+          : themed('stats/empty-strawberry.png', dark)
         return (
           <img
             key={`berry-${i}`}

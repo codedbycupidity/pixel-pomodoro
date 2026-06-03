@@ -1,4 +1,4 @@
-import { asset } from './assets'
+import { themed } from './assets'
 
 // Layout constants in 512x512 design space and helpers to map to render units.
 export const CANVAS = 512
@@ -142,29 +142,31 @@ export interface Box {
 }
 
 export interface SpriteBox extends Box {
-  src: string
+  // Logical, theme-agnostic path (e.g. "tasks/task.png"); resolved per-theme at render.
+  key: string
 }
 
 export const TASK_SPRITES = {
   // Row "slot": the pill art is 27px tall starting at y=207; we crop a PITCH-tall
   // (32px) window so each row element includes a 5px gap to the next row.
-  row: { src: asset('tasks/task.png'), x: 188, y: 207, w: 183, h: 32 },
+  row: { key: 'tasks/task.png', x: 188, y: 207, w: 183, h: 32 },
   // Both checkbox states share one box (covers the checkmark overshoot) so they
   // line up exactly when toggled.
-  checkbox: { src: asset('tasks/checkbox.png'), x: 195, y: 212, w: 17, h: 16 },
-  checkboxDone: { src: asset('tasks/checkbox-done.png'), x: 195, y: 212, w: 17, h: 16 },
-  addField: { src: asset('tasks/add-task.png'), x: 189, y: 174, w: 154, h: 23 },
-  addButton: { src: asset('tasks/add.png'), x: 347, y: 174, w: 24, h: 23 },
-  trash: { src: asset('tasks/tasks-trash-button.png'), x: 351, y: 349, w: 26, h: 24 }
+  checkbox: { key: 'tasks/checkbox.png', x: 195, y: 212, w: 17, h: 16 },
+  checkboxDone: { key: 'tasks/checkbox-done.png', x: 195, y: 212, w: 17, h: 16 },
+  addField: { key: 'tasks/add-task.png', x: 189, y: 174, w: 154, h: 23 },
+  addButton: { key: 'tasks/add.png', x: 347, y: 174, w: 24, h: 23 },
+  trash: { key: 'tasks/tasks-trash-button.png', x: 351, y: 349, w: 26, h: 24 }
 } as const
 
 // Filter bar: each PNG is the WHOLE 3-segment control (labels baked in) with one
 // segment shown selected. They share the same full-bar content box, so we render
 // only the one matching the active filter and overlay transparent segment hitboxes.
+// Logical (theme-agnostic) paths; resolved per-theme at render with themed().
 export const TASK_FILTER_SPRITES: Record<TaskFilterKey, string> = {
-  all: asset('tasks/all.png'),
-  active: asset('tasks/active.png'),
-  done: asset('tasks/done.png')
+  all: 'tasks/all.png',
+  active: 'tasks/active.png',
+  done: 'tasks/done.png'
 }
 // Clickable segments — the filter bar (x 189..323) split into thirds at the
 // midpoints between the Figma label centers (all=210, active=254, done=301).
@@ -200,6 +202,7 @@ export const TASK_LIST = {
 // render full-frame instead. Returns plain CSS background props.
 export function spriteCropStyle(
   s: SpriteBox,
+  dark: boolean,
   canvas = CANVAS
 ): {
   backgroundImage: string
@@ -208,7 +211,7 @@ export function spriteCropStyle(
   backgroundPosition: string
 } {
   return {
-    backgroundImage: `url(${s.src})`,
+    backgroundImage: `url(${themed(s.key, dark)})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: `${(canvas / s.w) * 100}% ${(canvas / s.h) * 100}%`,
     backgroundPosition: `${(s.x / (canvas - s.w)) * 100}% ${(s.y / (canvas - s.h)) * 100}%`

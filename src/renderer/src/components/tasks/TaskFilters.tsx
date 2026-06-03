@@ -6,10 +6,12 @@ import {
   TASK_FILTER_SPRITES,
   TASK_SPRITES
 } from '../../lib/canvas'
+import { themed } from '../../lib/assets'
 import type { TaskFilter } from '../../lib/tasks'
 
 interface TaskFiltersProps {
   filter: TaskFilter
+  dark: boolean
   setFilter: (f: TaskFilter) => void
   onClearDone: () => void
   hasDone: boolean
@@ -20,6 +22,7 @@ const TRASH = TASK_SPRITES.trash
 
 export function TaskFilters({
   filter,
+  dark,
   setFilter,
   onClearDone,
   hasDone
@@ -27,7 +30,7 @@ export function TaskFilters({
   return (
     <>
       {/* Full-frame bar PNG for the active filter — already positioned in the art. */}
-      <img className="canvas-layer" src={TASK_FILTER_SPRITES[filter]} alt="" />
+      <img className="canvas-layer" src={themed(TASK_FILTER_SPRITES[filter], dark)} alt="" />
 
       {/* Labels at their exact Figma positions (the PNGs have no baked text). */}
       {ORDER.map((value) => {
@@ -68,7 +71,7 @@ export function TaskFilters({
       {/* Full-frame trash PNG (dimmed when nothing to clear) + click target. */}
       <img
         className={`canvas-layer task-trash-img ${hasDone ? '' : 'is-disabled'}`}
-        src={TRASH.src}
+        src={themed(TRASH.key, dark)}
         alt=""
       />
       <button
