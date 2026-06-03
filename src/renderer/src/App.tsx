@@ -218,6 +218,7 @@ function App(): React.JSX.Element {
 
             <img className="canvas-layer" src={asset('main/today-count.png')} alt="" />
             <img className="canvas-layer" src={asset('main/reset.png')} alt="" />
+            <img className="canvas-layer" src={asset('main/skip.png')} alt="" />
 
             <div
               className="figma-text"
@@ -331,6 +332,7 @@ function App(): React.JSX.Element {
           style={hitboxStyle(RESET_HITBOX, debug)}
           onClick={timer.reset}
           aria-label={RESET_HITBOX.label}
+          title="Reset timer"
         >
           {debug && <span className="debug-label">{RESET_HITBOX.label}</span>}
         </button>
@@ -350,24 +352,21 @@ function App(): React.JSX.Element {
           />
         )}
 
-        {/* Debug: skip straight to the next phase. */}
-        {active === 'timer' && (
-          <button
-            className="timer-skip"
-            onClick={timer.skip}
-            aria-label="Skip to next phase"
-            title="Skip to next phase (debug)"
-            style={{
-              left: pct(372),
-              top: pct(414),
-              width: pct(40),
-              height: pct(19),
-              fontSize: designVw(7)
-            }}
-          >
-            <span>skip</span>
-          </button>
-        )}
+        {/* Skip to the next phase — persists on every screen alongside reset.
+            (skip.png art is rendered with the always-on chrome above; opaque art
+            measured at design 426,413 19x20.) */}
+        <button
+          className="hitbox"
+          onClick={timer.skip}
+          aria-label="Skip to next phase"
+          title="Skip to next phase"
+          style={{
+            left: pct(426),
+            top: pct(413),
+            width: pct(19),
+            height: pct(20)
+          }}
+        />
 
         {/* Debug: fire a test OS notification (verifies macOS/Windows/Linux toasts). */}
         {active === 'timer' && (
