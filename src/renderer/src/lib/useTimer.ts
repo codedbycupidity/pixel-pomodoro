@@ -118,14 +118,20 @@ export function useTimer(durations: TimerDurations, feedback: TimerFeedback): Ti
     setRunning((r) => !r)
   }
 
+  // Full reset: stop, return to a fresh focus session (clears the streak), and
+  // zero today's pomodoro count.
   function reset(): void {
     setRunning(false)
-    setSecondsLeft(phaseSeconds(phase))
+    setPhase('focus')
+    focusStreak.current = 0
+    setSecondsLeft(phaseSeconds('focus'))
+    setPomodorosToday(0)
   }
 
-  // Debug/skip: jump to the next phase immediately (counts a skipped focus, silent).
+  // Skip jumps to the next phase but does NOT count a pomodoro — a pomodoro only
+  // counts when a full focus/study session actually elapses (auto-complete below).
   function skip(): void {
-    advance({ count: true, alert: false })
+    advance({ count: false, alert: false })
   }
 
   return { phase, running, secondsLeft, pomodorosToday, toggle, reset, skip }
