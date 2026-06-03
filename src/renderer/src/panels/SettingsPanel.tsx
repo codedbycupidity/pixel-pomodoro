@@ -1,15 +1,9 @@
 import { SettingsModifier } from '../components/settings/SettingsModifier'
 import { SettingsToggle } from '../components/settings/SettingsToggle'
 import { SETTINGS_ROWS } from '../lib/canvas'
+import type { SettingsState } from '../lib/settings'
 
-export interface SettingsState {
-  focusMin: number
-  longBreakMin: number
-  shortBreakMin: number
-  soundOn: boolean
-  notificationOn: boolean
-  darkModeOn: boolean
-}
+export type { SettingsState } from '../lib/settings'
 
 interface SettingsPanelProps {
   settings: SettingsState

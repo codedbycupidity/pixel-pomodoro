@@ -25,9 +25,10 @@ import {
   SKIP_TEXT_NAMES,
   stripFigmaSuffix
 } from './lib/figma'
+import { loadSettings, saveSettings, type SettingsState } from './lib/settings'
 import { loadTasks, saveTasks, type Task } from './lib/tasks'
 import { formatTime, useTimer } from './lib/useTimer'
-import { SettingsPanel, type SettingsState } from './panels/SettingsPanel'
+import { SettingsPanel } from './panels/SettingsPanel'
 import { StatsPanel } from './panels/StatsPanel'
 import { TasksPanel } from './panels/TasksPanel'
 import { TimerPanel } from './panels/TimerPanel'
@@ -91,14 +92,7 @@ function renderFigmaText(node: FigmaTextNode, dyn: DynamicTextState): React.JSX.
 function App(): React.JSX.Element {
   const [active, setActive] = useState<PanelId>('timer')
   const [debug] = useState(false)
-  const [settings, setSettings] = useState<SettingsState>({
-    focusMin: 25,
-    longBreakMin: 15,
-    shortBreakMin: 5,
-    soundOn: true,
-    notificationOn: true,
-    darkModeOn: false
-  })
+  const [settings, setSettings] = useState<SettingsState>(() => loadSettings())
   const [tasks, setTasks] = useState<Task[]>(() => loadTasks())
 
   const timer = useTimer(
@@ -125,6 +119,10 @@ function App(): React.JSX.Element {
   useEffect(() => {
     saveTasks(tasks)
   }, [tasks])
+
+  useEffect(() => {
+    saveSettings(settings)
+  }, [settings])
 
   function handleWindowControl(id: WindowControlId): void {
     if (id === 'minimize') window.api.window.minimize()
