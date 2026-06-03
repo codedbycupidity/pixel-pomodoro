@@ -425,3 +425,54 @@
 .timer-skip:active {
   transform: translateY(1px);
 }
+
+/* ----------------------------------------------------------------------------
+   Dark mode. The .dark class is set on .window-root when the Dark Mode setting
+   is on. Figma text colors are overridden inline (see renderFigmaText); here we
+   handle the CSS-colored text and restyle the CSS-drawn settings controls.
+---------------------------------------------------------------------------- */
+
+/* Text across the app -> near-white (#FFFFFD) in dark mode. */
+.dark .task-text,
+.dark .task-edit-input,
+.dark .task-add-input,
+.dark .task-filter-label,
+.dark .task-filter-label.is-active,
+.dark .settings-modifier-value,
+.dark .settings-modifier-arrow,
+.dark .timer-skip {
+  color: #fffffd;
+}
+.dark .task-edit-input {
+  caret-color: #fffffd;
+}
+.dark .task-add-input::placeholder {
+  color: rgba(255, 255, 253, 0.5);
+}
+.dark .task-text.is-done {
+  color: rgba(255, 255, 253, 0.45);
+}
+
+/* Settings controls — dark surface, near-white text, pink accent kept for "on". */
+.dark .settings-modifier-pill {
+  background: #322a47;
+  border-color: #6f6196;
+  color: #fffffd;
+}
+.dark .settings-modifier-arrow {
+  color: #fffffd;
+}
+.dark .settings-toggle-track.is-off {
+  background: #3a3252;
+  border-color: #6f6196;
+}
+.dark .settings-toggle-thumb.is-off {
+  background: #9a8db8;
+}
+.dark .settings-toggle-track.is-on {
+  background: #b9a3e3;
+  border-color: #9580c0;
+}
+.dark .settings-toggle-thumb.is-on {
+  background: #fffffd;
+}

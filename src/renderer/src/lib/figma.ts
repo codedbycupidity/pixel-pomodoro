@@ -65,6 +65,11 @@ export const SKIP_IMAGE_PATTERNS: RegExp[] = [
   // Figma's default-named container frames (e.g. "Frame 4") are structural, not
   // exported assets — skip them so they don't render as a missing "Frame.png".
   /^Frame\b/,
+  // Figma's own vector drawings of the settings controls (modifier pills/arrows =
+  // "Vector", toggle circles = "Ellipse"). We render these as CSS controls, so the
+  // raw vectors aren't exported assets — skip them.
+  /^Vector\b/,
+  /^Ellipse\b/,
   /^completed-strawberry/,
   /^empty-strawberry/,
   // Tasks panel renders these sprites itself (rows, checkboxes, add field, filters,

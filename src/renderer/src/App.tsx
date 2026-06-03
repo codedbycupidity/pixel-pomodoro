@@ -48,7 +48,11 @@ function hitboxStyle(h: Hitbox, debug: boolean): CSSProperties {
   }
 }
 
-function renderFigmaText(node: FigmaTextNode, dyn: DynamicTextState): React.JSX.Element {
+function renderFigmaText(
+  node: FigmaTextNode,
+  dyn: DynamicTextState,
+  dark: boolean
+): React.JSX.Element {
   const bbox = node.bboxRelative ?? node.bbox
   const text = dynamicTextFor(node.name, dyn) ?? node.text
   // Shift "pomodoros completed" right when the count grows from 1 to 2+ digits
@@ -66,7 +70,7 @@ function renderFigmaText(node: FigmaTextNode, dyn: DynamicTextState): React.JSX.
     height: pct(bbox.height),
     fontSize: designVw(node.fontSize),
     lineHeight: designVw(node.lineHeightPx),
-    color: fillToCss(node.fills?.[0])
+    color: dark ? '#FFFFFD' : fillToCss(node.fills?.[0])
   }
   const style: CSSProperties =
     node.name === 'STUDY TIME'
@@ -133,7 +137,7 @@ function App(): React.JSX.Element {
   }
 
   return (
-    <div className="window-root">
+    <div className={`window-root ${dark ? 'dark' : ''}`}>
       <div className={`canvas ${debug ? 'debug-canvas' : ''}`}>
         {/* Debug wireframe overlays */}
         {debug && (
@@ -234,7 +238,7 @@ function App(): React.JSX.Element {
                 height: pct(17),
                 fontSize: designVw(8),
                 lineHeight: designVw(17),
-                color: 'rgb(137, 55, 96)'
+                color: dark ? '#FFFFFD' : 'rgb(137, 55, 96)'
               }}
             >
               {timer.pomodorosToday}
@@ -245,7 +249,7 @@ function App(): React.JSX.Element {
               if (SKIP_TEXT_NAMES.has(node.name)) return null
               const panel = classifyTextNode(node)
               if (panel !== 'always' && panel !== 'timer') return null
-              return renderFigmaText(node, dyn)
+              return renderFigmaText(node, dyn, dark)
             })}
 
             {/* Tasks/Stats/Settings panel assets render ABOVE the main chrome. */}
@@ -282,7 +286,7 @@ function App(): React.JSX.Element {
             if (SKIP_TEXT_NAMES.has(node.name)) return null
             const panel = classifyTextNode(node)
             if (panel !== active) return null
-            return renderFigmaText(node, dyn)
+            return renderFigmaText(node, dyn, dark)
           })}
 
         {/* Per-panel interactive overlays */}
