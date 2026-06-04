@@ -4,7 +4,12 @@
   "description": "A pixel-art pomodoro desktop app",
   "main": "./out/main/index.js",
   "author": "codedbycupidity",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
+    "setup": "npm install && npm run dev",
     "format": "prettier --write .",
     "lint": "eslint --cache .",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
