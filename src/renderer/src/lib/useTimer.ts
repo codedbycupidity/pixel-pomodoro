@@ -2,6 +2,7 @@
    The timer effects intentionally drive state from the countdown reaching zero,
    from duration changes, and from the day rolling over; that's the whole point. */
 import { useEffect, useRef, useState } from 'react'
+import { asset } from './assets'
 
 export type TimerPhase = 'focus' | 'short' | 'long'
 
@@ -85,7 +86,7 @@ export function useTimer(durations: TimerDurations, feedback: TimerFeedback): Ti
   // and the manual skip button.
   function advance(opts: { count: boolean; alert: boolean }): void {
     setRunning(false)
-    if (opts.alert && feedback.soundOn) beep()
+    if (opts.alert && feedback.soundOn) playAlarm()
     if (phase === 'focus') {
       if (opts.count) setPomodorosToday((n) => n + 1)
       focusStreak.current += 1
@@ -102,7 +103,8 @@ export function useTimer(durations: TimerDurations, feedback: TimerFeedback): Ti
     } else {
       setPhase('focus')
       setSecondsLeft(phaseSeconds('focus'))
-      if (opts.alert && feedback.notificationOn) notify('Break over', 'Back to focus.', feedback.soundOn)
+      if (opts.alert && feedback.notificationOn)
+        notify('Break over', 'Back to focus.', feedback.soundOn)
     }
   }
 
@@ -180,6 +182,18 @@ function readStoredDate(): string | null {
 }
 
 // --- feedback helpers (best-effort; never throw) -------------------------------
+
+// Phase-complete chime. Falls back to a synthesized beep if the file can't play.
+const alarmSrc = asset('audio/Alarm.m4a')
+
+function playAlarm(): void {
+  try {
+    const el = new Audio(alarmSrc)
+    void el.play().catch(() => beep())
+  } catch {
+    beep()
+  }
+}
 
 function beep(): void {
   try {
