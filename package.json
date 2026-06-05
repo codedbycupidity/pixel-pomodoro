@@ -5,6 +5,7 @@
   "main": "./out/main/index.js",
   "author": "codedbycupidity",
   "scripts": {
+    "setup": "node scripts/setup.cjs",
     "format": "prettier --write .",
     "lint": "eslint --cache .",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
