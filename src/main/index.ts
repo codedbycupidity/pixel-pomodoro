@@ -55,7 +55,10 @@ function createWindow(): void {
       const n = new Notification({
         title: payload.title,
         body: payload.body,
-        silent: payload.silent ?? false
+        silent: payload.silent ?? false,
+        // Strawberry icon on Windows/Linux; macOS ignores this and shows the
+        // app bundle's icon (also the strawberry in packaged builds).
+        icon
       })
       // Clicking the toast brings the timer back to the foreground.
       n.on('click', () => {

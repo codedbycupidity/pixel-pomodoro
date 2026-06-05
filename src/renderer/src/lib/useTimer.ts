@@ -248,10 +248,14 @@ function notify(title: string, body: string, silent = false): void {
   htmlNotify(title, body)
 }
 
+// Strawberry favicon shown inside HTML5 notifications (native macOS notifications
+// ignore custom icons and show the app bundle's strawberry icon instead).
+const notifIcon = asset('light-mode/stats/strawberry-stat-display.png')
+
 function htmlNotify(title: string, body: string): void {
   try {
     if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification(title, { body })
+      new Notification(title, { body, icon: notifIcon })
     }
   } catch {
     // ignore
